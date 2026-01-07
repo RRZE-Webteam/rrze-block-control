@@ -1,0 +1,32 @@
+{
+  "name": "baseline",
+  "version": "0.0.1",
+  "description": "A plugin to improve the UX of the BlockEditor by reducing clutter, whenever wanted.",
+  "main": "rrze-block-control.php",
+  "textdomain": "rrze-block-control",
+  "scripts": {
+    "setup": "composer install",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "browserslist": [
+    "last 3 years"
+  ],
+  "supports": {
+    "email": "webmaster@fau.de"
+  },
+  "license": "GNU General Public License v3",
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@types/wordpress__block-editor": "^14.21.0",
+    "@types/wordpress__blocks": "^12.5.18",
+    "@wordpress/scripts": "^30.26.0",
+    "dotenv": "^17.2.3",
+    "sass": "^1.93.2",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@wordpress/dom-ready": "^4.37.0"
+  }
+}
