@@ -12,6 +12,8 @@
  * Domain Path: /languages
  */
 
+namespace RRZE\BlockControl;
+
 use RRZE\BlockControl\Main;
 
 defined('ABSPATH') || exit;
@@ -22,11 +24,11 @@ const RRZE_BLOCKCONTROL_WP_VERSION = '6.7';
 // ==================================================
 // Actions and Activation / Deactivation Hooks
 // ==================================================
-add_action('plugins_loaded', 'block_control_init');
-add_action('init', 'block_control_load_textdomain');
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\blockControlInit' );
+add_action( 'init', __NAMESPACE__ . '\\blockControlLoadTextdomain' );
 
-register_activation_hook(__FILE__, 'block_control_plugin_activation');
-register_deactivation_hook(__FILE__, 'block_control_plugin_deactivation');
+register_activation_hook( __FILE__, __NAMESPACE__ . '\\blockControlPluginActivation' );
+register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\blockControlPluginDeactivation' );
 
 // ==================================================
 // Plugin Initialization, Activation and Deactivation
@@ -38,9 +40,9 @@ register_deactivation_hook(__FILE__, 'block_control_plugin_deactivation');
  * It might rely on an activation function that could run before this function to Setup the Options.
  * @return void
  */
-function block_control_init(): void
+function blockControlInit(): void
 {
-    block_control_include_autoloader();
+    blockControlIncludeAutoloader();
 
     new Main();
 }
@@ -48,11 +50,11 @@ function block_control_init(): void
 /**
  * Plugin Activation Function
  */
-function block_control_plugin_activation(): void
+function blockControlPluginActivation(): void
 {
-    block_control_load_textdomain();
-    block_control_check_system_requirements();
-    block_control_include_autoloader();
+    blockControlLoadTextdomain();
+    blockControlCheckSystemRequirements();
+    blockControlIncludeAutoloader();
 
     // Your required activation steps here, if there are any
     // For example defining a global option, etc.
@@ -61,9 +63,9 @@ function block_control_plugin_activation(): void
 /**
  * Plugin Deactivation Function
  */
-function block_control_plugin_deactivation(): void
+function blockControlPluginDeactivation(): void
 {
-    block_control_include_autoloader();
+    blockControlIncludeAutoloader();
 
     // Your required deactivation logic here.
     // For example wiping the wp transients of your plugin if needed
@@ -80,7 +82,7 @@ function block_control_plugin_deactivation(): void
  * For now just be aware, that you could also replace the comoposer autoloader with a
  * PSR-4 Autloading-Code-Snippet.
  */
-function block_control_include_autoloader(): void
+function blockControlIncludeAutoloader(): void
 {
     if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
         require_once(dirname(__FILE__) . '/vendor/autoload.php');
@@ -94,7 +96,7 @@ function block_control_include_autoloader(): void
  * On the official WordPress Org site is it enough to just define the Textdomain
  * in the Plugin comment at the beginning of this file
  */
-function block_control_load_textdomain(): void
+function blockControlLoadTextdomain(): void
 {
     load_plugin_textdomain('block_control', FALSE, sprintf('%s/languages/', dirname(plugin_basename(__FILE__))));
 }
@@ -106,7 +108,7 @@ function block_control_load_textdomain(): void
  * If the check fails, the Plugin is deactivated network-wide
  * @return void
  */
-function block_control_check_system_requirements(): void
+function blockControlCheckSystemRequirements(): void
 {
     $error = '';
     if (version_compare(PHP_VERSION, RRZE_BLOCKCONTROL_PHP_VERSION, '<')) {

@@ -6,7 +6,8 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "RRZE\\BlockControl\\": "includes/"
+            "RRZE\\BlockControl\\": "includes/",
+            "RRZE\\BlockControl\\Blocks\\": "includes/Blocks/"
         }
     }
 }
