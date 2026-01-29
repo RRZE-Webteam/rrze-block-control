@@ -14,12 +14,9 @@ defined('ABSPATH') || exit;
  */
 class Main
 {
-
-    protected BlockRegistry $blockRegistry;
-    protected Settings $settings;
-    protected BlockControl $blockControl;
-
-
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->initHooks();
@@ -30,24 +27,19 @@ class Main
 
     /**
      * Initializes plugin classes
+     *
      * @return void
      */
     public function initHooks(): void
     {
-        $this -> blockRegistry = new Blocks\BlockRegistry(); // Wenn du trotzdem eine separate Init- oder Register-Funktion in den Klassen hast
-        $this -> settings = new Settings(); // Was das hier auslöst: Der Konstruktor in der Klasse Settings wird gefeuert
-        $this -> blockControl = new Blocks\BlockControl(
-            $this -> settings,
-            $this -> blockRegistry
-
-        ); // Was das hier auslöst: Der Konstruktor in der Klasse BlockControl wird gefeuert
+        new Blocks\BlockRegistry(); // Wenn du trotzdem eine separate Init- oder Register-Funktion in den Klassen hast
+        new Settings\Settings(); // Was das hier auslöst: Der Konstruktor in der Klasse Settings wird gefeuert
+        new Blocks\BlockControl(); // Was das hier auslöst: Der Konstruktor in der Klasse BlockControl wird gefeuert
+        new Blocks\BlocksWhitelist();
 
         if (is_admin()) {
-            new SettingsPage(
-                $this -> settings,
-                $this -> blockRegistry
-            );
-            new AdminNotice();
+            new Settings\SettingsPage();
+            new Settings\AdminNotice();
         }
     }
 }

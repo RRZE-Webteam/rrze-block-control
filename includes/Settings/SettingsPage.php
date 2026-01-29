@@ -1,6 +1,6 @@
 <?php
 
-namespace RRZE\BlockControl;
+namespace RRZE\BlockControl\Settings;
 
 defined('ABSPATH') || exit;
 
@@ -33,12 +33,12 @@ class SettingsPage
     public function blockControlSettings(): void
     {
         add_submenu_page(
-            'options-general.php',
-            'RRZE Block Control',
-            'RRZE Block Control',
-            'manage_options',
-            'rrze-block-control',
-            [$this, 'renderSettingsPage']
+                'options-general.php',
+                'RRZE Block Control',
+                'RRZE Block Control',
+                'read',
+                'rrze-block-control',
+                [$this, 'renderSettingsPage']
         );
     }
 
@@ -57,20 +57,25 @@ class SettingsPage
          *
          */
         echo '<div class="wrap">';
-        echo '<h1>RRZE Block Control</h1>';
+        echo '<h1>' . esc_html(__('RRZE Block Control', 'rrze-block-control')) . '</h1>';
+        echo '<p>' . esc_html(__('Wählen Sie aus, welche Blöcke Sie für bestimmte Nutzerrollen anzeigen lassen möchten.', 'rrze-block-control')) . '</p>';
         echo '</div>';
 
+//Todo: wo finde ich die verschiedenen Rollen?
+
+        // --- Tabs (hart definiert, bewusst simpel)
+        //$tabs = [
+        // 'author' => 'Autor', //kann Beiträge anlegen, bearbeiten und veröffentliche, Medien hochladen
+        //    'editor' => 'Redakteur', //kann Inhalte freigeben, editieren, löschen, Medien hochladen, Kategorien erstellen und löschen
 
 
+        //   'll' => 'Mitarbeiter',//kann Beiträge anlegen und bearbeiten, kann keine Medien hochladen, kann keine Beiträge veröffentlichen
+
+        //  ];
 
 
-    }
-
-
-
-
-    // VIelleicht hast du später noch für verschiedene Abschnitte funktionen, etc.
-    // Nach Bedarf.
+        // VIelleicht hast du später noch für verschiedene Abschnitte funktionen, etc.
+        // Nach Bedarf.
 //
 //
 //        // Gibt vielleicht nur das HTML für die WhiteList Section zurück.
@@ -81,6 +86,7 @@ class SettingsPage
 //         */
 //    }
 
+    }
 }
 
 

@@ -8,7 +8,7 @@
  * Author URI: https://www.rrze.fau.de
  * Version: 0.0.1
  * License: GPL3
- * Text domain: block-control
+ * Text domain: rrze-block-control
  * Domain Path: /languages
  */
 

@@ -14,6 +14,8 @@ defined('ABSPATH') || exit;
 class BlockControl
 {
     // TODO: Konstruktor noch hinzufügen fürs initiieren der KLassen
+//Abschließend sollte BlockControl nur
+//noch Settings::generateWhitelist() aufrufen, um die erlaubten Blöcke zu kennen.
 
     /**
      * ermittelt die aktuelle User Rolle
