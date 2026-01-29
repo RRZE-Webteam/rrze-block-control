@@ -32,10 +32,8 @@ class Main
      */
     public function initHooks(): void
     {
-        new Blocks\BlockRegistry(); // Wenn du trotzdem eine separate Init- oder Register-Funktion in den Klassen hast
-        new Settings\Settings(); // Was das hier auslöst: Der Konstruktor in der Klasse Settings wird gefeuert
         new Blocks\BlockControl(); // Was das hier auslöst: Der Konstruktor in der Klasse BlockControl wird gefeuert
-        new Blocks\BlocksWhitelist();
+        new Blocks\BlockWhitelist();
 
         if (is_admin()) {
             new Settings\SettingsPage();

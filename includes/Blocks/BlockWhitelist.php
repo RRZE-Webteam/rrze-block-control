@@ -7,27 +7,24 @@ defined('ABSPATH') || exit;
 
 
 /**
- * Default whitelist of blocks
- *
+ * Central place for the plugin’s default whitelist presets. The static methods defined here return
+ *  arrays of block slugs grouped by role and act as the initial data source for Settings as well as
+ *  the fallback whenever no user-defined whitelist exists yet.
  */
-class BlocksWhitelist
+class BlockWhitelist
 {
-
-    //    // Als Idee einfach: Linked Lists / bzw. ein Array mit sprechenden Keys
-//    protected array $whiteList = [
-//        'pluginVersion' => $pluginVersionNumber,
-//        'userGenerated' => isUserGenerated(), // könntest du auch nennen, isDefaultWhiteList boolean,
-//        'whitelist' => [
-//            'editor' => ['core/table','core/list'],
-//            'author' => [],
-//        ],
-//    ];
     /**
-     *Default blocks whitelists for standard user roles
+     * Provides the built-in whitelist presets for each supported role.
      *
-     * @return array
+     * This static helper returns a simple associative array where each key is a role slug (e.g. `author`,
+     * `editor`) and the value is a list of block slugs that should be enabled by default for that role.
+     *
+     * The data serves as the initial seed for `Settings::getWhitelist()` and acts as a fallback whenever
+     * no user-defined whitelist exists yet.
+     *
+     * @return array<string,string[]> Default block slugs per role.
      */
-    public static function defaultBlocksPerRole(): array
+    public static function defaultBlockSlugsPerRole(): array
     {
         return [
             'author' => [

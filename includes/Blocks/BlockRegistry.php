@@ -7,105 +7,109 @@ use RRZE\BlockControl\Helper;
 defined('ABSPATH') || exit;
 
 /**
- * Wissenssammler, kennt alle registrierten Blöcke, Kategorien und neue Blöcke.
- * Stellt verschiedene Getter bereit.
- * Fragt nicht. Wird gefragt von SettingsPage und BlockControl
+ * Provides read-only access to all registered Gutenberg blocks.
+ *
+ *  This class acts as a lightweight wrapper around WP_Block_Type_Registry.
+ *  It reduces block objects to the information needed by this plugin
+ *  (slug, title, category) and exposes the data grouped by category.
+ *
+ *  The class uses lazy loading and does NOT hook into WordPress actions.
+ *  Consumers decide when the block list is needed.
  */
 class BlockRegistry
 {
-
-    protected array $blocksByCategory = []; //Zwischenspeicher für Daten
+    /**
+     * Cached block list grouped by category.
+     *
+     * Format:
+     * [
+     *   'text' => [
+     *     [ 'slug' => 'core/paragraph', 'title' => 'Paragraph' ],
+     *     [ 'slug' => 'core/heading',   'title' => 'Heading'   ],
+     *   ],
+     *   'media' => [
+     *     [ 'slug' => 'core/image', 'title' => 'Image' ],
+     *   ],
+     * ]
+     *
+     * @var array
+     */
+    protected array $blockSlugsByCategory = [];
 
 
     /**
-     * Registrieren von Filtern, oder von Hooks, etc.
+     * Returns all registered block slugs grouped by category.
+     *
+     * This method uses lazy loading:
+     * - On first call, it queries WP_Block_Type_Registry,
+     *   reduces the data, groups it by category and caches the result.
+     * - On subsequent calls, the cached data is returned.
+     *
+     * @return array Blocks grouped by category, including slug and title.
      */
-    public function __construct()
+    public function getBlockSlugsByCategory(): array
     {
-        add_action('init', [$this, 'getRegisteredBlocksWithCategories'], 99);
+        if (empty($this->blockSlugsByCategory)) {
+            $this->blockSlugsByCategory = $this->loadBlockSlugsByCategory();
+        }
+
+        return $this->blockSlugsByCategory;
     }
 
-
     /**
-     * Get all registered Blocks with their categories
+     * Loads all registered blocks from WordPress and groups them by category.
      *
-     * @return array
+     * This method should not be called directly from outside.
+     * It is separated from the public getter to keep responsibilities clear
+     * and make the class easier to test.
+     *
+     * @return array Blocks grouped by category.
      */
-    public function getRegisteredBlocksWithCategories(): array
+    protected function loadBlockSlugsByCategory(): array
     {
         $registry = \WP_Block_Type_Registry::get_instance();
-        $allBlocks = $registry->get_all_registered(); //Array von WP_Block_Type Objekten
+        $allBlocks = $registry->get_all_registered();
 
-        $reducedBlocks = [];
-
-        //foreach (ARRAY as WAS_SOLL_REIN), stecke den Schlüssel in $blockName, den Wert in $blockValue
-        foreach ($allBlocks as $blockName => $blockValue) {
-
-            $reducedBlocks[$blockName] = [
-                'title' => $blockValue->title ?? $blockName,
-                'category' => $blockValue->category ?? 'uncategorized',
-            ];
-        }
-        Helper::debug('BlocklistemitKategorie');
-        Helper::debug($reducedBlocks);
-        //error_log(print_r($reducedBlocks, true));
-
-        $this->blocksByCategory = $this->groupBlocksByCategory($reducedBlocks);
-
-        return $this->blocksByCategory;
-
-    }
-
-
-    /**
-     * Groups registered blocks by their category
-     *
-     * @param array $reducedBlocks
-     * @return array – blocks grouped by categories
-     */
-    public function groupBlocksByCategory(array $reducedBlocks): array
-    {
         $groupedBlocks = [];
 
-        foreach ($reducedBlocks as $blockName => $blockValue) {
-            //Kategorie aus der Liste auslesen
-            $category = $blockValue ['category'];
-            $title = $blockValue['title'] ?? $blockName;
+        foreach ($allBlocks as $blockSlug => $blockType) {
+            $category = $blockType->category ?? 'uncategorized';
+            $title    = $blockType->title ?? $blockSlug;
 
-            //Blockname und Title der Kategorie hinzufügen, [] = $blockName ist der Wert, der an die Kategorie angefügt wird.
             $groupedBlocks[$category][] = [
-                'slug' => $blockName,
+                'slug'  => $blockSlug,
                 'title' => $title,
             ];
         }
 
-        Helper::debug('Gruppierte Blöcke');
-        Helper::debug($groupedBlocks);
-
         return $groupedBlocks;
     }
 
-
     /**
-     * Returns the list of registered blocks grouped by their categories.
+     * Returns a flat list of all registered block slugs.
      *
-     * This method uses lazy loading:
-     * - If the blocks have not been loaded yet, it retrieves them via
-     *   getRegisteredBlocksWithCategories() and stores the result internally.
-     * - On subsequent calls, the already stored data is returned without
-     *   recalculating the block list.
+     * This is a convenience helper for consumers that only need "slugs"
+     * (e.g. whitelist validation or "new block" detection).
      *
-     * This avoids unnecessary repeated processing and ensures a consistent
-     * data structure for all consumers of this method (e.g. settings pages).
-     *
-     * @return array An array of blocks grouped by category.
+     * @return string[] List of block slugs (e.g. ['core/paragraph', 'core/image']).
      */
-    public function getBlocksByCategory(): array
+    public function getAllBlockSlugs(): array
     {
-        if (empty($this->blocksByCategory)) {
-            $this->blocksByCategory = $this->getRegisteredBlocksWithCategories();
-        }
+        $grouped = $this->getBlockSlugsByCategory();
 
-        return $this->blocksByCategory;
+        return array_values(
+            array_unique(
+                array_merge(
+                    ...array_map(
+                        fn ($blocks) => array_column($blocks, 'slug'),
+                        $grouped
+                    )
+                )
+            )
+        );
     }
 }
+
+
+
+
