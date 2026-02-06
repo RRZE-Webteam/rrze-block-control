@@ -2,78 +2,99 @@
 
 namespace RRZE\BlockControl\Blocks;
 
+use RRZE\BlockControl\Settings\Settings;
+use RRZE\BlockControl\Blocks\BlockRegistry;
+use RRZE\BlockControl\Helper;
+
 defined('ABSPATH') || exit;
 
 
 /**
- * Class BlockControl
+ * Restricts available Gutenberg blocks in the editor based on the current user's role.
  *
- * ermittelt die aktuelle Nutzerrolle, fragt erlaubte Blöcke ab (Settings, getOption())
- * entfernt nicht erlaubte Blöcke aus dem Editor
+ * This class hooks into the WordPress filter `allowed_block_types_all` and returns
+ * a whitelist of allowed block slugs for the detected role.
+ *
+ * Notes:
+ * - This only affects which blocks can be inserted in the editor.
+ * - It does NOT remove blocks already stored in post content.
+ * - Admins are typically excluded to avoid locking yourself out.
  */
 class BlockControl
 {
-    // TODO: Konstruktor noch hinzufügen fürs initiieren der KLassen
-//Abschließend sollte BlockControl nur
-//noch Settings::generateWhitelist() aufrufen, um die erlaubten Blöcke zu kennen.
 
-    /**
-     * ermittelt die aktuelle User Rolle
-     * @returns string
-     *
-     */
+    protected Settings $settings;
+    protected BlockRegistry $registry;
 
-
-    public function getCurrentUserRole(): string
+    public function __construct(Settings $settings, BlockRegistry $registry)
     {
-        /** ermittelt die aktuelle Nutzerrolle */
+        $this->settings = $settings;
+        $this->registry = $registry;
 
-
-    }
-
-    /**
-     * ermittelt, welche Blöcke der aktuelle User verwenden darf
-     * @returns array
-     *
-     */
-    public function getAllowedBlocksByUserRole($userRole): string
-    {
-        // gibt die Blöcke für die gewählte Nutzerrolle zurück als Array
+        add_filter(
+            'allowed_block_types_all',
+            [$this, 'filterBlocksByRole'],
+            77,
+            2
+        );
     }
 
 
     /**
-     * Rein exemplarisch. Ob du die Funktion dann wirklich brauchst, merkst du spätestens beim Umsetzen.
-     * @param $userRole
-     * @param $whitelist
-     * @return void
+     * Filters allowed Gutenberg blocks for the current user.
+     *
+     * @param bool|array $allowedBlocks Block types allowed so far.
+     * @param \WP_Block_Editor_Context $context Editor context.
+     * @return bool|array
      */
-    public function prepareWhiteListForCurrentUser($userRole, $whitelist)
+    public function filterBlocksByRole($allowedBlocks, $context)
     {
-        /** Vergleich: registrierte Blöcke und erlaubte Blöcke*/
+        if (!function_exists('wp_get_current_user')) {
+            return $allowedBlocks;
+        }
 
-        // Registrierte Blöcke abrufen über separate Funktion
+        $role = $this->getCurrentUserRole();
 
-        // Die Funktion nimmt die Nutzerrolle und die WhiteList für diese Nutzerrolle
-        // und verarbeitet sie vielleicht irgendwie. Stell dir vor der Hook nimmt nur eine Liste an erlauben Blöcken,
-        // dann könnte man die Funktion hier bestimmt skippen.
+        if ($role === '') {
+            return [];
+        }
+        $allowedPerRole = $this->settings->getBlockSlugsForRole($role);
 
-        // Falls der Hook vielleicht eine ARt Blacklist ist. Kann es ja sein, dass du zuerst alle Blöcke abrufen musst
-        // und dann die Blöcke der WhiteList rausnehmen musst.
+        if (!is_array($allowedPerRole)) {
+            return [];
+        }
 
-        // Stößt applyBlockControls() an.
+        $allowedPerRole = array_values(array_filter($allowedPerRole, static function ($slug) {
+            return is_string($slug) && $slug !== '';
+        }));
+
+        Helper::debug(__METHOD__ . ' called');
+        Helper::debug('Current user: ' . wp_get_current_user()->user_login);
+        Helper::debug('Detected role: ' . $role);
+        Helper::debug('Allowed blocks count: ' . count($allowedPerRole));
+        Helper::debug('Allowed block slugs: ' . implode(', ', $allowedPerRole));
+
+        if ($allowedPerRole === []) {
+            return [];
+        }
+
+        return $allowedPerRole;
     }
 
 
     /**
-     * wendet die Blockeinschränkungen im Editor an
-     * @returns array
+     * Returns the primary role of the current user.
      *
+     * @return string Role slug or empty string if none detected.
      */
-    public function applyBlockControls(): string
+    protected function getCurrentUserRole(): string
     {
-        /** Entfernen aller Blöcke aus dem Editor, die nicht in der erlaubten Liste enthalten sind*/
+        $user = wp_get_current_user();
 
+        if (!$user || empty($user->roles) || !is_array($user->roles)) {
+            return 'subscriber';
+        }
 
+        return (string) $user->roles[0];
     }
 }

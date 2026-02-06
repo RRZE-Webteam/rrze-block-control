@@ -3,6 +3,8 @@
 
 namespace RRZE\BlockControl\Blocks;
 
+use RRZE\BlockControl\Settings\Settings;
+
 defined('ABSPATH') || exit;
 
 
@@ -13,6 +15,10 @@ defined('ABSPATH') || exit;
  */
 class BlockWhitelist
 {
+
+    protected Settings $settings;
+
+
     /**
      * Provides the built-in whitelist presets for each supported role.
      *
@@ -42,7 +48,7 @@ class BlockWhitelist
                 'core/group',
                 'core/gallery',
                 'core/image',
-                'core/media-texth',
+                'core/media-text',
                 'core/paragraph',
                 'core/paragraph',
                 'core/paragraph',
