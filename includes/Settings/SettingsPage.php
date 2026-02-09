@@ -120,12 +120,24 @@ class SettingsPage
         $this->renderBlockSlugList($blocksByCategory, $allowedBlockSlugs);
 
         // Submit button
-        echo '<p>';
+
+        echo '<p class="bc-submit">';
         echo '<input type="submit" name="rrze_block_control_submit" class="button button-primary" value="' . esc_attr__('Save changes', 'rrze-block-control') . '">';
+        echo '</p>';
+
+        //Rest Button
+        echo '<hr>';
+        echo '<p class="bc-reset-role-button">';
+        echo '<p>'. esc_html(__('Reset role to default.', 'rrze-block-control')) . '</p>';
+        echo '<button type="submit" name="rrze_block_control_reset_role" class="button button-secondary">';
+        echo esc_html__( 'Reset Block Choice', 'rrze-block-control' );
+        echo '</button>';
         echo '</p>';
 
         echo '</form>';
         echo '</div>';
+
+
 
     }
 
@@ -173,7 +185,10 @@ class SettingsPage
      */
     public function handleFormSubmit($selectedRole): void
     {
-        if (!isset ($_POST['rrze_block_control_submit'])) {
+        $isSave = isset($_POST['rrze_block_control_submit']);
+        $isReset = isset($_POST['rrze_block_control_reset_role']);
+
+        if (!$isSave && !$isReset) {
             return;
         }
 
@@ -186,6 +201,11 @@ class SettingsPage
             !isset($_POST['rrze_block_control_nonce']) ||
             !wp_verify_nonce($_POST['rrze_block_control_nonce'], 'rrze_block_control_save')
         ) {
+            return;
+        }
+
+        if ($isReset) {
+            $this->settings->resetRole($selectedRole);
             return;
         }
 
@@ -259,7 +279,7 @@ class SettingsPage
             $selected = ($roleSlug === $selectedRole) ? 'selected' : '';
 
             echo '<option value="' . esc_attr($roleSlug) . '" ' . $selected . '>';
-            echo esc_html($roleData['name']);
+            echo esc_html( translate_user_role( $roleData['name'] )); //shows correct language in select field
             echo '</option>';
         }
 
@@ -269,7 +289,9 @@ class SettingsPage
         echo '<p class="bc-load-role-button">';
         echo '<input type="submit" name="rrze_block_control_change_role" class="button button-primary" value="' . esc_attr__('Load Role', 'rrze-block-control') . '">';
         echo '</p>';
+
         echo '</div>';
+
     }
 
 
@@ -284,10 +306,20 @@ class SettingsPage
     {
         echo '<h2>' . esc_html(__('Available blocks', 'rrze-block-control')) . '</h2>';
 
-        foreach ($blocksByCategory as $category => $blocks) {
+        $customLabels = [
+            'rrze-plugins'   => 'RRZE Plugins',
+            'rrze_elements'  => 'RRZE Elements',
+            'rrze'    => 'RRZE',
+            'fau-elemental/FAU' => 'FAU Elemental/FAU',
 
+            // weitere eigene Kategorien hier…
+        ];
+
+
+        foreach ($blocksByCategory as $category => $blocks) {
+            $label = $customLabels[$category] ?? ucfirst($category);
             echo '<fieldset  class="bc-block-category">';
-            echo '<legend><strong>' . esc_html(ucfirst($category)) . '</strong></legend>';
+            echo '<legend><strong>' . esc_html($label) . '</strong></legend>';
             echo '<div class="bc-block-grid">';
 
             foreach ($blocks as $block) {
@@ -300,6 +332,7 @@ class SettingsPage
             }
             echo '</div>';
             echo '</fieldset>';
+
         }
     }
 }

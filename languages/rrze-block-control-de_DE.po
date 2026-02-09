@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RRZE Block Control\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-09 08:07+0000\n"
+"PO-Revision-Date: 2026-02-09 08:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: Deutsch\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.23\n"
+"X-Domain: rrze-block-control"
+
+#. Description of the plugin
+msgid ""
+"A wordpress Plugin to improve the UX inside the BlockEditor, whenever wanted."
+msgstr ""
+"Ein WordPress Plugin zur Verbesserung der Nutzung von Blöcken im Block "
+"Editor."
+
+#: includes/Settings/SettingsPage.php:285
+msgid "Available blocks"
+msgstr "Verfügbare Blöcke"
+
+#. Author URI of the plugin
+msgid "https://www.rrze.fau.de"
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:270
+msgid "Load Role"
+msgstr "Rolle laden"
+
+#. Name of the plugin
+#: includes/Settings/SettingsPage.php:107
+msgid "RRZE Block Control"
+msgstr ""
+
+#. Author of the plugin
+msgid "RRZE Webteam"
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:124
+msgid "Save changes"
+msgstr "Speichern"
+
+#: includes/Settings/SettingsPage.php:249
+msgid "Select the role you want to configure:"
+msgstr "Wählen Sie die Rolle aus, die Sie bearbeiten wollen:"
+
+#: includes/Settings/SettingsPage.php:108
+msgid ""
+"Select which user role is allowed to use which blocks in the Block Editor."
+msgstr ""
+"Wählen Sie aus, welche Blöcke für die gewählte Nutzerrolle angezeigt werden "
+"sollen."
+
+#: includes/Settings/SettingsPage.php:245
+msgid "User role"
+msgstr "Nutzerrolle"

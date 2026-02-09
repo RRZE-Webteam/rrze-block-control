@@ -81,7 +81,8 @@ class BlockRegistry
                 'title' => $title,
             ];
         }
-
+        Helper::debug('Gruppierte Blöcke');
+        Helper::debug($groupedBlocks);
         return $groupedBlocks;
     }
 
@@ -96,14 +97,16 @@ class BlockRegistry
     public function getAllBlockSlugs(): array
     {
         $grouped = $this->getBlockSlugsByCategory();
+        $slugLists = array_map(
+            static fn(array $blocks) => array_column($blocks, 'slug'),
+            $grouped
+        );
 
         return array_values(
             array_unique(
                 array_merge(
-                    ...array_map(
-                        fn ($blocks) => array_column($blocks, 'slug'),
-                        $grouped
-                    )
+                    [],
+                    ...array_values($slugLists)
                 )
             )
         );

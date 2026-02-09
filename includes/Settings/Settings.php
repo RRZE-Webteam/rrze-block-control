@@ -4,8 +4,6 @@ namespace RRZE\BlockControl\Settings;
 
 defined('ABSPATH') || exit;
 
-use RRZE\BlockControl\Blocks\BlockWhitelist;
-
 
 /**
  *  Encapsulates all persistence-related tasks:
@@ -45,7 +43,7 @@ class Settings
             $whitelistConfig = [
                 'pluginVersion' => '1.0.0',
                 'userGenerated' => false,
-                'whitelist' => BlockWhitelist::defaultBlockSlugsPerRole(),
+                'whitelist' => [],
             ];
 
             update_option('rrze_block_control_whitelist', $whitelistConfig); //
@@ -74,17 +72,9 @@ class Settings
     public function getBlockSlugsForRole(string $role): array
     {
         $whitelistConfig = $this->getWhitelist();
-
         $roleWhitelist = $whitelistConfig['whitelist'] ?? [];
 
-        if (isset($roleWhitelist[$role])) {
-            return $roleWhitelist[$role];
-        }
-
-        $defaultBlockSlugsPerRole = BlockWhitelist::defaultBlockSlugsPerRole();
-
-        return $defaultBlockSlugsPerRole[$role] ?? [];
-
+        return $roleWhitelist[$role] ?? [];
     }
 
 
@@ -122,6 +112,33 @@ class Settings
 
 
     /**
+     * Resets the block selection for a given role back to an empty state.
+     *
+     * Triggered when an admin clicks the reset button on the settings page.
+     * The stored whitelist entry for the specified role is removed, the
+     * `rrze_block_control_whitelist` option is updated, and the in-memory cache
+     * (`$this->whitelist`) is refreshed so subsequent reads reflect the change.
+     *
+     * @param string $roleSlug
+     * @return void
+     */
+    public function resetRole(string $roleSlug): void
+    {
+        $whitelistConfig = $this->getWhitelist();
+
+        if (!isset($whitelistConfig['whitelist'][$roleSlug])) {
+            return;
+        }
+
+        unset($whitelistConfig['whitelist'][$roleSlug]);
+
+        update_option('rrze_block_control_whitelist', $whitelistConfig);
+
+        $this->whitelist = $whitelistConfig;
+    }
+
+
+    /**
      * Determines whether new block types have been registered since the last check and updates the reference list.
      *
      * Workflow:
@@ -138,19 +155,39 @@ class Settings
      */
     public function detectNewlyRegisteredBlocks(): array
     {
-        $blockRegistry = new \RRZE\BlockControl\Blocks\BlockRegistry();
-        $currentRegisteredBlockSlugs = $blockRegistry->getAllBlockSlugs();
-        $previouslyRegisteredBlockSlugs = get_option('rrze_block_control_known_blocks', []);
+        $new = $this->getNewBlocks();
+        $this->markNewBlocksAsSeen();
+        return $new;
 
-        if (!is_array($previouslyRegisteredBlockSlugs)) {
-            $previouslyRegisteredBlockSlugs = [];
+    }
+
+    //Snapshot Property + Helfer
+    protected ?array $registeredBlockSnapshot = null;
+    protected ?array $newBlockSlugs = null;
+
+    protected function getRegisteredBlockSnapshot(): array {
+        if ($this->registeredBlockSnapshot === null) {
+            $registry = new \RRZE\BlockControl\Blocks\BlockRegistry();
+            $this->registeredBlockSnapshot = $registry->getAllBlockSlugs();
         }
-        $newBlockSlugs = array_values(array_diff($currentRegisteredBlockSlugs, $previouslyRegisteredBlockSlugs));
+        return $this->registeredBlockSnapshot;
+    }
 
-        update_option('rrze_block_control_known_blocks', $currentRegisteredBlockSlugs);
+    public function getNewBlocks(): array {
+        if ($this->newBlockSlugs !== null) {
+            return $this->newBlockSlugs;
+        }
+        $current = $this->getRegisteredBlockSnapshot();
+        $known = get_option('rrze_block_control_known_blocks', []);
+        if (!is_array($known)) {
+            $known = [];
+        }
+        $this->newBlockSlugs = array_values(array_diff($current, $known));
+        return $this->newBlockSlugs;
+    }
 
-        return $newBlockSlugs;
-
+    public function markNewBlocksAsSeen(): void {
+        update_option('rrze_block_control_known_blocks', $this->getRegisteredBlockSnapshot());
     }
 
 

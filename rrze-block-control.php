@@ -98,7 +98,7 @@ function blockControlIncludeAutoloader(): void
  */
 function blockControlLoadTextdomain(): void
 {
-    load_plugin_textdomain('block_control', FALSE, sprintf('%s/languages/', dirname(plugin_basename(__FILE__))));
+    load_plugin_textdomain('rrze-block-control', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
 
 /**

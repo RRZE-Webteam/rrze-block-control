@@ -4,7 +4,6 @@ namespace RRZE\BlockControl;
 
 use RRZE\BlockControl\Blocks\BlockRegistry;
 use RRZE\BlockControl\Blocks\BlockControl;
-use RRZE\BlockControl\Blocks\BlockWhitelist;
 use RRZE\BlockControl\Settings\Settings;
 use RRZE\BlockControl\Settings\SettingsPage;
 use RRZE\BlockControl\Settings\AdminNotice;
@@ -40,11 +39,10 @@ class Main
         $settings = new Settings();
 
         new BlockControl($settings, $registry);
-        new BlockWhitelist($settings);
 
         if (is_admin()) {
             new SettingsPage($settings, $registry);
-            new AdminNotice();
+            new AdminNotice($settings);
         }
     }
 }
