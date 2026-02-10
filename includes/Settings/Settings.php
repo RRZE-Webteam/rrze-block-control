@@ -30,7 +30,6 @@ class Settings
      */
     public function getWhitelist(): array
     {
-
         if ($this->whitelist !== null) {
             return $this->whitelist;
         }
@@ -136,60 +135,6 @@ class Settings
 
         $this->whitelist = $whitelistConfig;
     }
-
-
-    /**
-     * Determines whether new block types have been registered since the last check and updates the reference list.
-     *
-     * Workflow:
-     *  1. Fetch the current block registry via `BlockRegistry::getBlocksByCategory()` and flatten the grouped result
-     *     so we end up with a simple array of block slugs.
-     *     $currentSlugs = ['core/paragraph', 'core/heading', 'core/image','core/gallery'];
-     *  2. Load the previously known slugs from the option `rrze_block_control_known_blocks`. If the option does not
-     *     exist yet (e.g. after plugin activation), fall back to an empty array.
-     *  3. Use `array_diff()` to identify all slugs that are present in the current registry but missing in the known
-     *     list — these slugs represent newly registered blocks.
-     *  4. Store the current slug list back into the option so the next invocation treats it as the new reference point.
-     *
-     * @return string[] List of all new block slugs that were not part of the previously stored reference snapshot.
-     */
-    public function detectNewlyRegisteredBlocks(): array
-    {
-        $new = $this->getNewBlocks();
-        $this->markNewBlocksAsSeen();
-        return $new;
-
-    }
-
-    //Snapshot Property + Helfer
-    protected ?array $registeredBlockSnapshot = null;
-    protected ?array $newBlockSlugs = null;
-
-    protected function getRegisteredBlockSnapshot(): array {
-        if ($this->registeredBlockSnapshot === null) {
-            $registry = new \RRZE\BlockControl\Blocks\BlockRegistry();
-            $this->registeredBlockSnapshot = $registry->getAllBlockSlugs();
-        }
-        return $this->registeredBlockSnapshot;
-    }
-
-    public function getNewBlocks(): array {
-        if ($this->newBlockSlugs !== null) {
-            return $this->newBlockSlugs;
-        }
-        $current = $this->getRegisteredBlockSnapshot();
-        $known = get_option('rrze_block_control_known_blocks', []);
-        if (!is_array($known)) {
-            $known = [];
-        }
-        $this->newBlockSlugs = array_values(array_diff($current, $known));
-        return $this->newBlockSlugs;
-    }
-
-    public function markNewBlocksAsSeen(): void {
-        update_option('rrze_block_control_known_blocks', $this->getRegisteredBlockSnapshot());
-    }
-
 
 }
 

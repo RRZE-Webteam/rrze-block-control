@@ -2,60 +2,67 @@
 
 namespace RRZE\BlockControl\Settings;
 
+use RRZE\BlockControl\Blocks\BlockRegistry;
+
 defined('ABSPATH') || exit;
 
-
 /**
- * Admin Notice
- *
- * checks if there are new blocks
- * notice, if a new block is detected.
+ * Displays an admin notice when new Gutenberg blocks have been registered
+ * since the last review by an administrator.
  */
 class AdminNotice
 {
-    private Settings $settings;
-
     /**
-     * Constructor
-*/
-    public function __construct(Settings $settings)
+     * AdminNotice constructor.
+     *
+     * Receives the shared Settings instance and hooks the notice renderer
+     * into WordPress so new blocks can be announced to admins.
+     */
+    public function __construct()
     {
-        $this->settings = $settings;
-        add_action('admin_notices', [$this, 'showNewBlockNotice']);
-
+        add_action('admin_notices', [$this, 'render']);
     }
 
 
     /**
-     * checks if new blocks were detected
+     * Renders the admin notice if new blocks are detected.
      *
      * @return void
      */
-     public function showNewBlockNotice(): void
-     {
-         if (!current_user_can('manage_options')) {
-             return;
-         }
+    public function render(): void
+    {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
 
-         $newBlocks = $this->settings->getNewBlocks();
-         if (empty($newBlocks)) {
-             return;
-         }
+        $registry = new BlockRegistry();
+        $newBlockSlugs = $registry->getNewBlockSlugs();
 
-         $settingsUrl = esc_url(admin_url('options-general.php?page=rrze-block-control'));
+        if (empty($newBlockSlugs)) {
+            return;
+        }
 
-         echo '<div class="notice notice-warning is-dismissible">';
-         echo '<p>' . esc_html__('New blocks have been registered. Please check the whitelist..', 'rrze-block-control') . '</p>';
-         echo '<ul>';
-         foreach ($newBlocks as $slug) {
-             echo '<li><code>' . esc_html($slug) . '</code></li>';
-         }
-         echo '</ul>';
-         echo '<p><a class="button button-primary" href="' . $settingsUrl . '">'
-             . esc_html__('Open Settings', 'rrze-block-control') . '</a></p>';
-         echo '</div>';
-         
-         $this->settings->markNewBlocksAsSeen();
-     }
+        $settingsUrl = admin_url('options-general.php?page=rrze-block-control');
 
+        ?>
+        <div class="notice notice-warning">
+            <p>
+                <strong>
+                    <?php echo esc_html__('New blocks detected.', 'rrze-block-control'); ?>
+                </strong><br>
+                <?php
+                echo esc_html__(
+                        'New Gutenberg blocks have been registered since your last review. Please check the block permissions for each user role.',
+                        'rrze-block-control'
+                );
+                ?>
+            </p>
+            <p>
+                <a href="<?php echo esc_url($settingsUrl); ?>" class="button button-primary">
+                    <?php echo esc_html__('Review settings', 'rrze-block-control'); ?>
+                </a>
+            </p>
+        </div>
+        <?php
+    }
 }

@@ -68,12 +68,6 @@ class BlockControl
             return is_string($slug) && $slug !== '';
         }));
 
-        Helper::debug(__METHOD__ . ' called');
-        Helper::debug('Current user: ' . wp_get_current_user()->user_login);
-        Helper::debug('Detected role: ' . $role);
-        Helper::debug('Allowed blocks count: ' . count($allowedPerRole));
-        Helper::debug('Allowed block slugs: ' . implode(', ', $allowedPerRole));
-
         if ($allowedPerRole === []) {
             return [];
         }
@@ -95,6 +89,6 @@ class BlockControl
             return 'subscriber';
         }
 
-        return (string) $user->roles[0];
+        return (string)$user->roles[0];
     }
 }

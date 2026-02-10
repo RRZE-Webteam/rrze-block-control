@@ -16,13 +16,14 @@ use RRZE\BlockControl\Blocks\BlockRegistry;
  */
 class SettingsPage
 {
-
-
     private Settings $settings;
     private BlockRegistry $registry;
 
     /**
+     * SettingsPage constructor.
      *
+     * Stores the shared Settings and BlockRegistry instances and registers
+     * the admin menu + styles hooks so the settings UI becomes available.
      */
     public function __construct(Settings $settings, BlockRegistry $registry)
     {
@@ -55,9 +56,8 @@ class SettingsPage
                 '1.0.0'
             )
         );
-
-
     }
+
 
     /**
      *Adds a sub menu settings page to Options
@@ -101,6 +101,7 @@ class SettingsPage
         // 3. Load data required for rendering
         $blocksByCategory = $this->getRegisteredBlocksByCategory();
         $allowedBlockSlugs = $this->getAllowedBlockSlugsForRole($selectedRole);
+        $newBlockSlugs = $this->registry->getNewBlockSlugs();
 
         // 4. Render page wrapper
         echo '<div class="wrap">';
@@ -117,27 +118,24 @@ class SettingsPage
         $this->renderRoleSelector($selectedRole);
 
         // Block list
-        $this->renderBlockSlugList($blocksByCategory, $allowedBlockSlugs);
+        $this->renderBlockSlugList($blocksByCategory, $allowedBlockSlugs, $newBlockSlugs);
 
         // Submit button
-
         echo '<p class="bc-submit">';
         echo '<input type="submit" name="rrze_block_control_submit" class="button button-primary" value="' . esc_attr__('Save changes', 'rrze-block-control') . '">';
         echo '</p>';
 
-        //Rest Button
+        //Reset Button
         echo '<hr>';
         echo '<p class="bc-reset-role-button">';
-        echo '<p>'. esc_html(__('Reset role to default.', 'rrze-block-control')) . '</p>';
+        echo '<p>' . esc_html(__('Reset role to default.', 'rrze-block-control')) . '</p>';
         echo '<button type="submit" name="rrze_block_control_reset_role" class="button button-secondary">';
-        echo esc_html__( 'Reset Block Choice', 'rrze-block-control' );
+        echo esc_html__('Reset Block Choice', 'rrze-block-control');
         echo '</button>';
         echo '</p>';
 
         echo '</form>';
         echo '</div>';
-
-
 
     }
 
@@ -150,7 +148,6 @@ class SettingsPage
      *
      * @return string WordPress role slug used as the current settings context.
      */
-
     public function getSelectedRole(): string
     {
         $availableRoles = array_keys(get_editable_roles());
@@ -197,8 +194,7 @@ class SettingsPage
         }
 
         //Nonce check
-        if (
-            !isset($_POST['rrze_block_control_nonce']) ||
+        if (!isset($_POST['rrze_block_control_nonce']) ||
             !wp_verify_nonce($_POST['rrze_block_control_nonce'], 'rrze_block_control_save')
         ) {
             return;
@@ -219,8 +215,11 @@ class SettingsPage
 
         //Persist selection for the selected role
         $this->settings->saveBlockSlugsForRole($selectedRole, $sanitizedBlockSlugs);
+        // Mark newly detected blocks as reviewed
+        $this->registry->markNewBlocksAsSeen();
 
     }
+
 
     /**
      * Returns all registered Gutenberg blocks grouped by category.
@@ -273,16 +272,15 @@ class SettingsPage
 
 
         echo '<div class="bc-role-selector">';
-        echo '<select name="role" id="rrze-block-control-role">';
 
+        echo '<select name="role" id="rrze-block-control-role">';
         foreach ($roles as $roleSlug => $roleData) {
             $selected = ($roleSlug === $selectedRole) ? 'selected' : '';
 
             echo '<option value="' . esc_attr($roleSlug) . '" ' . $selected . '>';
-            echo esc_html( translate_user_role( $roleData['name'] )); //shows correct language in select field
+            echo esc_html(translate_user_role($roleData['name'])); //shows correct language in select field
             echo '</option>';
         }
-
         echo '</select>';
 
         // Submit button
@@ -300,35 +298,53 @@ class SettingsPage
      *
      * @param array $blocksByCategory Blocks grouped by category.
      * @param array $allowedBlockSlugs Allowed block slugs for the selected role.
+     * @param array $newBlockSlugs Newly detected Blog Slugs
      * @return void
      */
-    public function renderBlockSlugList(array $blocksByCategory, array $allowedBlockSlugs): void
+    public function renderBlockSlugList(array $blocksByCategory, array $allowedBlockSlugs, array $newBlockSlugs): void
     {
         echo '<h2>' . esc_html(__('Available blocks', 'rrze-block-control')) . '</h2>';
 
         $customLabels = [
-            'rrze-plugins'   => 'RRZE Plugins',
-            'rrze_elements'  => 'RRZE Elements',
-            'rrze'    => 'RRZE',
+            'rrze-plugins' => 'RRZE Plugins',
+            'rrze_elements' => 'RRZE Elements',
+            'rrze' => 'RRZE',
             'fau-elemental/FAU' => 'FAU Elemental/FAU',
-
-            // weitere eigene Kategorien hier…
         ];
 
-
         foreach ($blocksByCategory as $category => $blocks) {
+
             $label = $customLabels[$category] ?? ucfirst($category);
+
             echo '<fieldset  class="bc-block-category">';
             echo '<legend><strong>' . esc_html($label) . '</strong></legend>';
             echo '<div class="bc-block-grid">';
 
             foreach ($blocks as $block) {
-                $isChecked = in_array($block['slug'], $allowedBlockSlugs, true);
 
-                echo '<label class="bc-block-item">';
+                $slug = $block['slug'];
+                $title = $block['title'];
+
+                $isChecked = in_array($block['slug'], $allowedBlockSlugs, true);
+                $isNew = in_array($slug, $newBlockSlugs, true);
+
+                $classes = 'bc-block-item';
+                if ($isNew) {
+                    $classes .= ' bc-block-is-new';
+                }
+
+                echo '<label class=" ' . esc_attr($classes) . '">';
+
                 echo '<input type="checkbox" name="blocks[]" value="' . esc_attr($block['slug']) . '" ' . checked($isChecked, true, false) . '>';
-                echo ' ' . esc_html($block['title']);
+
+                echo ' ' . esc_html($title);
+
+                if ($isNew) {
+                    echo ' <span class="bc-block-new-label">' . esc_html__('New', 'rrze-block-control') . '</span>';
+                }
+
                 echo '</label>';
+
             }
             echo '</div>';
             echo '</fieldset>';

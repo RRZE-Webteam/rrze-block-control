@@ -24,11 +24,11 @@ const RRZE_BLOCKCONTROL_WP_VERSION = '6.7';
 // ==================================================
 // Actions and Activation / Deactivation Hooks
 // ==================================================
-add_action( 'plugins_loaded', __NAMESPACE__ . '\\blockControlInit' );
-add_action( 'init', __NAMESPACE__ . '\\blockControlLoadTextdomain' );
+add_action('plugins_loaded', __NAMESPACE__ . '\\blockControlInit');
+add_action('init', __NAMESPACE__ . '\\blockControlLoadTextdomain');
 
-register_activation_hook( __FILE__, __NAMESPACE__ . '\\blockControlPluginActivation' );
-register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\blockControlPluginDeactivation' );
+register_activation_hook(__FILE__, __NAMESPACE__ . '\\blockControlPluginActivation');
+register_deactivation_hook(__FILE__, __NAMESPACE__ . '\\blockControlPluginDeactivation');
 
 // ==================================================
 // Plugin Initialization, Activation and Deactivation
