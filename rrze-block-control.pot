@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-09 08:07+0000\n"
+"POT-Creation-Date: 2026-02-12 09:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -21,7 +21,7 @@ msgid ""
 "A wordpress Plugin to improve the UX inside the BlockEditor, whenever wanted."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:285
+#: includes/Settings/SettingsPage.php:307
 msgid "Available blocks"
 msgstr ""
 
@@ -29,12 +29,38 @@ msgstr ""
 msgid "https://www.rrze.fau.de"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:270
+#: includes/Settings/SettingsPage.php:289
 msgid "Load Role"
 msgstr ""
 
+#: includes/Settings/SettingsPage.php:344
+msgid "New"
+msgstr ""
+
+#: includes/Settings/AdminNotice.php:51
+msgid "New blocks detected."
+msgstr ""
+
+#: includes/Settings/AdminNotice.php:54
+msgid ""
+"New Gutenberg blocks have been registered since your last review. Please "
+"check the block permissions for each user role."
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:133
+msgid "Reset Block Choice"
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:131
+msgid "Reset role to default."
+msgstr ""
+
+#: includes/Settings/AdminNotice.php:62
+msgid "Review settings"
+msgstr ""
+
 #. Name of the plugin
-#: includes/Settings/SettingsPage.php:107
+#: includes/Settings/SettingsPage.php:108
 msgid "RRZE Block Control"
 msgstr ""
 
@@ -42,19 +68,20 @@ msgstr ""
 msgid "RRZE Webteam"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:124
+#: includes/Settings/SettingsPage.php:125
 msgid "Save changes"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:249
+#: includes/Settings/SettingsPage.php:269
 msgid "Select the role you want to configure:"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:108
+#: includes/Settings/SettingsPage.php:109
 msgid ""
-"Select which user role is allowed to use which blocks in the Block Editor."
+"Select which blocks should be restricted for a specific user role. These "
+"blocks will be hidden in the block editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:245
+#: includes/Settings/SettingsPage.php:265
 msgid "User role"
 msgstr ""

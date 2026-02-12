@@ -11,7 +11,7 @@ use RRZE\BlockControl\Blocks\BlockRegistry;
  * SettingsPage
  *
  * Input & Rendering
- * Shows Tabs, full block lists, Whitelist with activated check boxes
+ * Shows Tabs, full block lists, Blacklist with activated check boxes
  * saves changes via Settings.php (setOption())
  */
 class SettingsPage
@@ -52,9 +52,9 @@ class SettingsPage
         wp_enqueue_style(
             'rrze-block-control-admin',
             plugins_url('assets/css/admin.css', dirname(__DIR__, 2) . '/rrze-block-control.php',
-                [],
-                '1.0.0'
-            )
+            ),
+            [],
+            '1.0.0'
         );
     }
 
@@ -100,13 +100,13 @@ class SettingsPage
 
         // 3. Load data required for rendering
         $blocksByCategory = $this->getRegisteredBlocksByCategory();
-        $allowedBlockSlugs = $this->getAllowedBlockSlugsForRole($selectedRole);
+        $restrictedBlockSlugs = $this->getRestrictedBlockSlugsForRole($selectedRole);
         $newBlockSlugs = $this->registry->getNewBlockSlugs();
 
         // 4. Render page wrapper
         echo '<div class="wrap">';
         echo '<h1>' . esc_html(__('RRZE Block Control', 'rrze-block-control')) . '</h1>';
-        echo '<p>' . esc_html(__('Select which user role is allowed to use which blocks in the Block Editor.', 'rrze-block-control')) . '</p>';
+        echo '<p>' . esc_html(__('Select which blocks should be restricted for a specific user role. These blocks will be hidden in the block editor.', 'rrze-block-control')) . '</p>';
 
         // 5. Render settings form
         echo '<form method="post">';
@@ -118,7 +118,7 @@ class SettingsPage
         $this->renderRoleSelector($selectedRole);
 
         // Block list
-        $this->renderBlockSlugList($blocksByCategory, $allowedBlockSlugs, $newBlockSlugs);
+        $this->renderBlockSlugList($blocksByCategory, $restrictedBlockSlugs, $newBlockSlugs);
 
         // Submit button
         echo '<p class="bc-submit">';
@@ -214,7 +214,7 @@ class SettingsPage
         $sanitizedBlockSlugs = array_map('sanitize_text_field', $submittedBlockSlugs);
 
         //Persist selection for the selected role
-        $this->settings->saveBlockSlugsForRole($selectedRole, $sanitizedBlockSlugs);
+        $this->settings->saveRestrictedBlockSlugsForRole($selectedRole, $sanitizedBlockSlugs);
         // Mark newly detected blocks as reviewed
         $this->registry->markNewBlocksAsSeen();
 
@@ -236,16 +236,16 @@ class SettingsPage
 
 
     /**
-     * Returns all allowed block slugs for the given role.
+     * Returns all restricted block slugs for the given role.
      *
      * This method acts as a thin wrapper around the Settings class and is used
-     * by the settings page to retrieve the currently stored block whitelist
+     * by the settings page to retrieve the currently stored block blacklist
      * for a specific user role.
      *
      * @param string $role Role identifier (e.g. "author", "editor").
-     * @return array List of allowed block slugs for the role.
+     * @return array List of restricted block slugs for the role.
      */
-    public function getAllowedBlockSlugsForRole(string $role): array
+    public function getRestrictedBlockSlugsForRole(string $role): array
     {
         return $this->settings->getBlockSlugsForRole($role);
     }
@@ -260,6 +260,7 @@ class SettingsPage
     public function renderRoleSelector(string $selectedRole): void
     {
         $roles = get_editable_roles();
+
         echo '<div class="bc-user-role">';
         echo '<h2>' . esc_html(__('User role', 'rrze-block-control')) . '</h2>';
 
@@ -297,11 +298,11 @@ class SettingsPage
      * Renders the list of registered blocks grouped by category.
      *
      * @param array $blocksByCategory Blocks grouped by category.
-     * @param array $allowedBlockSlugs Allowed block slugs for the selected role.
+     * @param array $restrictedBlockSlugs Restricted block slugs for the selected role.
      * @param array $newBlockSlugs Newly detected Blog Slugs
      * @return void
      */
-    public function renderBlockSlugList(array $blocksByCategory, array $allowedBlockSlugs, array $newBlockSlugs): void
+    public function renderBlockSlugList(array $blocksByCategory, array $restrictedBlockSlugs, array $newBlockSlugs): void
     {
         echo '<h2>' . esc_html(__('Available blocks', 'rrze-block-control')) . '</h2>';
 
@@ -325,7 +326,7 @@ class SettingsPage
                 $slug = $block['slug'];
                 $title = $block['title'];
 
-                $isChecked = in_array($block['slug'], $allowedBlockSlugs, true);
+                $isChecked = in_array($block['slug'], $restrictedBlockSlugs, true);
                 $isNew = in_array($slug, $newBlockSlugs, true);
 
                 $classes = 'bc-block-item';

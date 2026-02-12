@@ -43,7 +43,12 @@ class BlockControl
     /**
      * Filters allowed Gutenberg blocks for the current user.
      *
-     * @param bool|array $allowedBlocks Block types allowed so far.
+     * $allowedBlocks = allowed_block_types_all
+     * $allBlocks = WP_Block_Type_Registry
+     * $allowed = allBlocks - restricted
+     *
+     *
+     * @param bool|array $allowedBlocks all registered blocks so far.
      * @param \WP_Block_Editor_Context $context Editor context.
      * @return bool|array
      */
@@ -56,23 +61,20 @@ class BlockControl
         $role = $this->getCurrentUserRole();
 
         if ($role === '') {
-            return [];
-        }
-        $allowedPerRole = $this->settings->getBlockSlugsForRole($role);
-
-        if (!is_array($allowedPerRole)) {
-            return [];
+            return $allowedBlocks;
         }
 
-        $allowedPerRole = array_values(array_filter($allowedPerRole, static function ($slug) {
-            return is_string($slug) && $slug !== '';
-        }));
+        $restricted = $this->settings->getBlockSlugsForRole($role);
 
-        if ($allowedPerRole === []) {
-            return [];
+        if (empty($restricted)) {
+            return true;
         }
 
-        return $allowedPerRole;
+        $allBlocks = $this->registry->getAllBlockSlugs();
+
+        $allowedBlocks = array_diff($allBlocks, $restricted);
+
+        return array_values($allowedBlocks);
     }
 
 

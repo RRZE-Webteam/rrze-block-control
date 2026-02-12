@@ -20,7 +20,7 @@ class AdminNotice
      */
     public function __construct()
     {
-        add_action('admin_notices', [$this, 'render']);
+        add_action('admin_notices', [$this, 'renderAdminNotice']);
     }
 
 
@@ -29,7 +29,7 @@ class AdminNotice
      *
      * @return void
      */
-    public function render(): void
+    public function renderAdminNotice(): void
     {
         if (!current_user_can('manage_options')) {
             return;

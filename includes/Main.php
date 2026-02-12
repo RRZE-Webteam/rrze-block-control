@@ -22,7 +22,7 @@ class Main
      */
     public function __construct()
     {
-        $this->initHooks();
+        $this->init();
 
     }
 
@@ -31,7 +31,7 @@ class Main
      *
      * @return void
      */
-    public function initHooks(): void
+    public function init(): void
     {
         $registry = new BlockRegistry();
         $settings = new Settings();

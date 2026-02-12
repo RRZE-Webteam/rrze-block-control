@@ -6,93 +6,95 @@ defined('ABSPATH') || exit;
 
 
 /**
- *  Encapsulates all persistence-related tasks:
- *  loading and caching the whitelist option, exposing per-role getters, saving updated block selections
- *  and detecting newly registered blocks to inform the admin.
- *  Any component that needs to read or write whitelist data should go through this class.
- */
+* Encapsulates all persistence-related tasks:
+ * loading and caching the blacklist option, exposing per-role getters, saving updated block restrictions.
+ *
+ * NOTE:
+ * - In "blacklist mode" we store the blocks that are NOT allowed.
+ * - The actual "allowed blocks" list is computed elsewhere (BlockControl) by doing:
+ *   allowed = all_registered_blocks - restricted_blocks
+    */
 class Settings
 {
-    // Cache
-    protected ?array $whitelist = null;
+    /**
+     * In-memory cache for the option payload.
+     *
+     * @var array|null
+     */
+    protected ?array $blacklist = null;
 
 
     /**
-     * Loads the complete whitelist payload from `wp_options`, creating a default structure when none exists yet.
+     * Loads the blacklist structure from the database.
      *
-     * The first call ist null.
-     * The method caches the resulting array in `$this->whitelist` to avoid repeated database lookups. On the first
-     * invocation it attempts to read the option `rrze_block_control_whitelist`; if missing or invalid, a default data
-     * set is built from `BlocksWhitelist::defaultBlocksPerRole()`, stored via `update_option()`, and returned. This
-     * shared source of truth is later consumed by `getBlocksForRole()`, the settings UI, and `BlockControl`.
+     * Flow:
+     * 1) Return cached data if already loaded.
+     * 2) Load option from database.
+     * 3) If structure invalid or missing, create default.
+     * 4) Cache and return.
      *
-     * @return array Full whitelist data including metadata and per-role block assignments.
+     * @return array
      */
-    public function getWhitelist(): array
+    public function getBlacklist(): array
     {
-        if ($this->whitelist !== null) {
-            return $this->whitelist;
+        if ($this->blacklist !== null) {
+            return $this->blacklist;
         }
 
-        $whitelistConfig = get_option('rrze_block_control_whitelist');
+        $blacklistConfig = get_option('rrze_block_control_blacklist');
 
-        $hasValidWhitelist = is_array($whitelistConfig) && isset($whitelistConfig['whitelist']);
+        $hasValidBlacklist = is_array($blacklistConfig) && isset($blacklistConfig['blacklist']);
 
-        if (!$hasValidWhitelist) {
-            $whitelistConfig = [
+        if (!$hasValidBlacklist) {
+            $blacklistConfig = [
                 'pluginVersion' => '1.0.0',
                 'userGenerated' => false,
-                'whitelist' => [],
+                'blacklist' => [],
             ];
 
-            update_option('rrze_block_control_whitelist', $whitelistConfig); //
+            update_option('rrze_block_control_blacklist', $blacklistConfig); //
 
         }
 
-        $this->whitelist = $whitelistConfig;
+        $this->blacklist = $blacklistConfig;
 
-        return $this->whitelist;
+        return $this->blacklist;
 
     }
 
 
     /**
-     * Retrieves the list of allowed block slugs for a given role, falling back to the default whitelist if no custom
-     * selection has been stored yet.
+     * Returns the restricted (blocked) block slugs for a given role.
      *
-     * The method uses `getWhitelist()` as the single source of truth: It first checks whether the option contains
-     * a `whitelist` entry for the requested `$role`. If yes, that array is returned as-is. If not (e.g. on fresh
-     * installations or newly added roles), it gracefully falls back to `BlocksWhitelist::defaultBlocksPerRole()`
-     * so the UI and BlockControl can still operate with sensible defaults.
+     * Important:
+     * - Empty array means: nothing blocked → everything allowed.
      *
-     * @param string $role Role identifier (e.g. `author`, `editor`).
-     * @return string[] Array of block slugs that are currently permitted for that role.
+     * @param string $role
+     * @return string[]
      */
     public function getBlockSlugsForRole(string $role): array
     {
-        $whitelistConfig = $this->getWhitelist();
-        $roleWhitelist = $whitelistConfig['whitelist'] ?? [];
+        $blacklistConfig = $this->getBlacklist();
+        $roleBlacklist = $blacklistConfig['blacklist'] ?? [];
 
-        return $roleWhitelist[$role] ?? [];
+        return $roleBlacklist[$role] ?? [];
     }
 
 
     /**
-     * Persists the selected block slugs for a specific role by updating the shared whitelist option and refreshing
-     * the in-memory cache.
+     * Saves the restricted block slugs for a specific role.
      *
-     * Expected flow:
-     *  1. Sanitize every submitted slug (`sanitize_text_field`) to avoid storing arbitrary payload from the form.
-     *  2. Load the current whitelist data via `getWhitelist()` and replace the entry of the requested role with
-     *     the sanitized array. At this stage you could also add validation against `BlockRegistry`, if desired.
-     *  3. Write the updated structure back to the option `rrze_block_control_whitelist` and mirror it in
-     *     `$this->whitelist` so subsequent reads see the newly saved state without another database call.
+     * Steps:
+     * 1) Sanitize incoming block slugs.
+     * 2) Replace blacklist entry for that role.
+     * 3) Persist to database.
+     * 4) Refresh in-memory cache.
      *
-     * @param string $role Role identifier that should receive the updated whitelist.
-     * @param string[] $blockSlugs Array of block slugs coming from the settings form (e.g. `core/paragraph`).
+     * @param string $role
+     * @param string[] $blocks
      * @return void
      */
-    public function saveBlockSlugsForRole(string $role, array $blocks): void
+    public function saveRestrictedBlockSlugsForRole(string $role, array $blocks): void
     {
         $sanitizedBlockSlugs = array_values
         (array_filter(
@@ -100,40 +102,38 @@ class Settings
             )
         );
 
-        $whitelistConfig = $this->getWhitelist();
-        $whitelistConfig['whitelist'][$role] = $sanitizedBlockSlugs;
+        $blacklistConfig = $this->getBlacklist();
+        $blacklistConfig['blacklist'][$role] = $sanitizedBlockSlugs;
 
-        update_option('rrze_block_control_whitelist', $whitelistConfig);
+        update_option('rrze_block_control_blacklist', $blacklistConfig);
 
-        $this->whitelist = $whitelistConfig;
+        $this->blacklist = $blacklistConfig;
 
     }
 
 
     /**
-     * Resets the block selection for a given role back to an empty state.
+     * Removes all restrictions for a given role.
      *
-     * Triggered when an admin clicks the reset button on the settings page.
-     * The stored whitelist entry for the specified role is removed, the
-     * `rrze_block_control_whitelist` option is updated, and the in-memory cache
-     * (`$this->whitelist`) is refreshed so subsequent reads reflect the change.
+     * In blacklist mode:
+     * - Removing role entry means nothing is blocked.
      *
      * @param string $roleSlug
      * @return void
      */
     public function resetRole(string $roleSlug): void
     {
-        $whitelistConfig = $this->getWhitelist();
+        $blacklistConfig = $this->getBlacklist();
 
-        if (!isset($whitelistConfig['whitelist'][$roleSlug])) {
+        if (!isset( $blacklistConfig['blacklist'][$roleSlug])) {
             return;
         }
 
-        unset($whitelistConfig['whitelist'][$roleSlug]);
+        unset( $blacklistConfig['blacklist'][$roleSlug]);
 
-        update_option('rrze_block_control_whitelist', $whitelistConfig);
+        update_option('rrze_block_control_blacklist',  $blacklistConfig);
 
-        $this->whitelist = $whitelistConfig;
+        $this->blacklist =  $blacklistConfig;
     }
 
 }
