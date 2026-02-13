@@ -63,6 +63,7 @@ class BlockRegistry
         }
 
         return $this->blockSlugsByCategory;
+
     }
 
     /**
@@ -123,19 +124,11 @@ class BlockRegistry
      *
      * The method compares the current list of registered block slugs with the
      * previously stored reference in the option `rrze_block_control_known_blocks`.
-     * Any slug that exists in the current registry but not in the stored reference
-     * is considered "new".
-     *
-     * The reference list is NOT updated automatically. Call `markNewBlocksAsSeen()`
-     * explicitly once the admin has acknowledged the changes.
      *
      * @return string[] List of newly detected block slugs.
      */
     public function getNewBlockSlugs(): array
     {
-        if ($this->newBlockSlugs !== null) {
-            return $this->newBlockSlugs;
-        }
 
         $currentSlugs = $this->getAllBlockSlugs();
         $knownSlugs = get_option('rrze_block_control_known_blocks', []);
@@ -144,18 +137,53 @@ class BlockRegistry
             $knownSlugs = [];
         }
 
-        $this->newBlockSlugs = array_values(
-            array_diff($currentSlugs, $knownSlugs)
-        );
-
-        return $this->newBlockSlugs;
+        return array_values(array_diff($currentSlugs, $knownSlugs));
     }
 
     /**
-     * Marks all currently registered blocks as known.
+     * Admin Notice!
+     * Resolves category/title details for a given list of block slugs.
      *
-     * This should be called after the admin has reviewed newly detected blocks
-     * (e.g. after saving the settings page).
+     * Filters duplicates, looks each slug up in the cached block registry
+     * and returns the matching metadata. Slugs without a matching block entry
+     * are skipped silently.
+     *
+     * @param string[] $slugs List of block slugs (e.g. ['core/paragraph']).
+     * @return array[] Each entry contains `slug`, `title`, and `category`.
+     */
+    public function getBlockDetailsForSlugs(array $slugs): array
+    {
+        $slugs = array_values(array_filter(array_unique($slugs)));
+        if (!$slugs) {
+            return [];
+        }
+
+        $blocksByCategory = $this->getBlockSlugsByCategory();
+        $details = [];
+
+        foreach ($blocksByCategory as $category => $blocks) {
+            foreach ($blocks as $block) {
+                if (in_array($block['slug'], $slugs, true)) {
+                    $title = trim((string) ($block['title'] ?? ''));
+                    if ($title === '') {
+                        continue;
+                    }
+
+                    $details[] = [
+                        'slug'     => $block['slug'],
+                        'title'    => $title,
+                        'category' => $category,
+                    ];
+                }
+            }
+        }
+
+        return $details;
+    }
+
+
+    /**
+     * Marks all currently registered blocks as known.
      *
      * @return void
      */
@@ -165,9 +193,8 @@ class BlockRegistry
             'rrze_block_control_known_blocks',
             $this->getAllBlockSlugs()
         );
-
-        $this->newBlockSlugs = [];
     }
+
 }
 
 

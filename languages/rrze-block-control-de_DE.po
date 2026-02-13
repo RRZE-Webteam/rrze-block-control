@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-09 08:07+0000\n"
-"PO-Revision-Date: 2026-02-12 09:11+0000\n"
+"PO-Revision-Date: 2026-02-13 11:41+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -22,48 +22,40 @@ msgstr ""
 "Ein WordPress Plugin zur Verbesserung der Nutzung von Blöcken im Block "
 "Editor."
 
-#: includes/Settings/SettingsPage.php:307
+#: includes/Settings/SettingsPage.php:318
 msgid "Available blocks"
 msgstr "Verfügbare Blöcke"
+
+#: includes/Settings/AdminNotice.php:85
+msgid "Confirm"
+msgstr "Bestätigen"
 
 #. Author URI of the plugin
 msgid "https://www.rrze.fau.de"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:289
+#: includes/Settings/SettingsPage.php:301
 msgid "Load Role"
 msgstr "Rolle laden"
 
-#: includes/Settings/SettingsPage.php:344
-msgid "New"
-msgstr ""
-
-#: includes/Settings/AdminNotice.php:51
+#: includes/Settings/AdminNotice.php:62
 msgid "New blocks detected."
-msgstr "Neue Blöcke entdeckt."
+msgstr "Neue Blöcke wurden entdeckt."
 
-#: includes/Settings/AdminNotice.php:54
-msgid ""
-"New Gutenberg blocks have been registered since your last review. Please "
-"check the block permissions for each user role."
-msgstr ""
-"Seit der letzten Überprüfung wurden neue Blöcke registriert. Bitte "
-"überprüfen Sie die Blockberechtigungen für jede Benutzerrolle."
-
-#: includes/Settings/SettingsPage.php:133
+#: includes/Settings/SettingsPage.php:145
 msgid "Reset Block Choice"
 msgstr "Zurücksetzen"
 
-#: includes/Settings/SettingsPage.php:131
+#: includes/Settings/SettingsPage.php:143
 msgid "Reset role to default."
 msgstr "Blockauswahl zurücksetzen"
 
-#: includes/Settings/AdminNotice.php:62
+#: includes/Settings/AdminNotice.php:81
 msgid "Review settings"
 msgstr "Einstellungen"
 
 #. Name of the plugin
-#: includes/Settings/SettingsPage.php:108
+#: includes/Settings/SettingsPage.php:116
 msgid "RRZE Block Control"
 msgstr ""
 
@@ -71,22 +63,37 @@ msgstr ""
 msgid "RRZE Webteam"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:125
-msgid "Save changes"
-msgstr "Speichern"
+#: includes/Settings/SettingsPage.php:137
+msgid "Save selection"
+msgstr "Auswahl speichern"
 
-#: includes/Settings/SettingsPage.php:269
-msgid "Select the role you want to configure:"
-msgstr "Wählen Sie die Rolle aus, die Sie bearbeiten wollen:"
+#: includes/Settings/SettingsPage.php:363
+msgid "Select all"
+msgstr "Alle auswählen"
 
-#: includes/Settings/SettingsPage.php:109
-msgid ""
-"Select which blocks should be restricted for a specific user role. These "
-"blocks will be hidden in the block editor."
+#: includes/Settings/SettingsPage.php:281
+#| msgid "Select the role you want to configure:"
+msgid "Select the user role you want to configure:"
+msgstr "Wählen Sie die Nutzerrolle aus, die Sie bearbeiten wollen:"
+
+#: includes/Settings/SettingsPage.php:118
+msgid "Select which blocks should be restricted for a specific user role."
 msgstr ""
-"Wählen Sie aus, welche Blöcke für eine bestimmte Nutzerrolle eingeschränkt "
-"werden sollen. Diese Blöcke werden im Block-Editor ausgeblendet."
+"Wählen Sie aus, welche Blöcke für eine bestimmte Benutzerrolle eingeschränkt "
+"werden sollen."
 
-#: includes/Settings/SettingsPage.php:265
+#: includes/Settings/AdminNotice.php:67
+msgid ""
+"The following new blocks have been registered. Please review your block "
+"restrictions if necessary."
+msgstr ""
+"Die folgenden Blöcke wurden neu registriert. Bitte überprüfen Sie Ihre "
+"Blockbeschränkungen."
+
+#: includes/Settings/SettingsPage.php:120
+msgid "These blocks will be hidden in the block editor."
+msgstr "Diese Blöcke werden im Block-Editor ausgeblendet."
+
+#: includes/Settings/SettingsPage.php:277
 msgid "User role"
-msgstr "Nutzerrolle"
+msgstr "Benutzerrolle"
