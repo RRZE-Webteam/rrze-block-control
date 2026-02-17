@@ -37,7 +37,7 @@ class AdminNotice
 
         $registry = new BlockRegistry();
 
-        $newBlockSlugs   = $registry->getNewBlockSlugs();
+        $newBlockSlugs = $registry->getNewBlockSlugs();
         $newBlockDetails = $registry->getBlockDetailsForSlugs($newBlockSlugs);
 
         // Wenn keine neuen Blöcke → keine Notice
@@ -114,7 +114,9 @@ class AdminNotice
             return;
         }
 
-        if (!wp_verify_nonce($_GET['_wpnonce'], 'rrze_block_control_dismiss')) {
+        if (!isset($_GET['_wpnonce']) ||
+            !wp_verify_nonce(wp_unslash($_GET['_wpnonce']), 'rrze_block_control_dismiss')
+        ) {
             return;
         }
 

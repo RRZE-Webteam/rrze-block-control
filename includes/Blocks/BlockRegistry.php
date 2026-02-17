@@ -20,14 +20,6 @@ class BlockRegistry
 {
 
     /**
-     * Cache for newly detected block slugs.
-     *
-     * @var string[]|null
-     */
-    protected ?array $newBlockSlugs = null;
-
-
-    /**
      * Cached block list grouped by category.
      *
      * Format:
@@ -86,9 +78,15 @@ class BlockRegistry
             $category = $blockType->category ?? 'uncategorized';
             $title = $blockType->title ?? $blockSlug;
 
+            $parent = $blockType->parent ?? [];
+            if (!is_array($parent)) {
+                $parent = [];
+            }
+
             $groupedBlocks[$category][] = [
                 'slug' => $blockSlug,
                 'title' => $title,
+                'parent' => is_array($parent) ? $parent : [],
             ];
         }
 
@@ -164,14 +162,14 @@ class BlockRegistry
         foreach ($blocksByCategory as $category => $blocks) {
             foreach ($blocks as $block) {
                 if (in_array($block['slug'], $slugs, true)) {
-                    $title = trim((string) ($block['title'] ?? ''));
+                    $title = trim((string)($block['title'] ?? ''));
                     if ($title === '') {
                         continue;
                     }
 
                     $details[] = [
-                        'slug'     => $block['slug'],
-                        'title'    => $title,
+                        'slug' => $block['slug'],
+                        'title' => $title,
                         'category' => $category,
                     ];
                 }

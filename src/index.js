@@ -16,7 +16,7 @@ const SettingsPage = () => {
                     </PanelRow>
                 </PanelBody>
                 <PanelBody
-                    title={__('Appearance', 'unadorned-announcement-bar')}
+                    title={__('Appearance', 'rrze-block-control')}
                     initialOpen={false}
                 >
                     <PanelRow>
@@ -30,7 +30,7 @@ const SettingsPage = () => {
 
 domReady(() => {
     const root = createRoot(
-        document.getElementById('unadorned-announcement-bar-settings')
+        document.getElementById('rrze-block-control-setting')
     );
 
     root.render(<SettingsPage/>);

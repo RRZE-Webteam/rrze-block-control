@@ -54,7 +54,7 @@ class BlockControl
      */
     public function filterBlocksByRole($allowedBlocks, $context)
     {
-        if (!function_exists('wp_get_current_user')) {
+        if (!$this->shouldFilterCurrentUser()) {
             return $allowedBlocks;
         }
 
@@ -76,6 +76,32 @@ class BlockControl
 
         return array_values($allowedBlocks);
     }
+
+    /**
+     * Determines whether the current user should be subject to block filtering.
+     *
+     * Checks if WordPress is available, evaluates the stored option and the
+     * `rrze_block_control_filter_admins` filter. By default administrators remain
+     * exempt so there is always an escape hatch back into the editor.
+     *
+     * @return bool True if the block restrictions should apply to the current user.
+     */
+    protected function shouldFilterCurrentUser(): bool {
+        if (!function_exists('current_user_can')) {
+            return false;
+        }
+
+        // Option im Backend (Checkbox) oder Filter, standardmäßig false.
+        $filterAdmins = (bool) get_option('rrze_block_control_filter_admins', false);
+        $filterAdmins = apply_filters('rrze_block_control_filter_admins', $filterAdmins);
+
+        if (!$filterAdmins && current_user_can('manage_options')) {
+            return false;
+        }
+
+        return true;
+    }
+
 
 
     /**

@@ -139,12 +139,12 @@ class SettingsPage
 
         //Reset Button
         echo '<hr>';
-        echo '<p class="bc-reset-role-button">';
+        echo '<div class="bc-reset-role-button">';
         echo '<p>' . esc_html(__('Reset role to default.', 'rrze-block-control')) . '</p>';
         echo '<button type="submit" name="rrze_block_control_reset_role" class="button button-secondary">';
         echo esc_html__('Reset Block Choice', 'rrze-block-control');
         echo '</button>';
-        echo '</p>';
+        echo '</div>';
 
         echo '</form>';
         echo '</div>';
@@ -165,17 +165,15 @@ class SettingsPage
         $availableRoles = array_keys(get_editable_roles());
 
         if (isset ($_POST['role'])) {
-            $selectedRole = sanitize_text_field( wp_unslash( $_POST['role'] ) );
+            $selectedRole = sanitize_text_field(wp_unslash($_POST['role']));
             if (in_array($selectedRole, $availableRoles, true)) {
                 return $selectedRole;
             }
         }
         //default
-        if (in_array('author', $availableRoles, true)) {
+        $defaultRole = reset($availableRoles);
+        return is_string($defaultRole) ? $defaultRole : 'subscriber';
 
-            return 'author';
-        }
-        return 'author';
     }
 
     /**
@@ -214,6 +212,7 @@ class SettingsPage
 
         if ($isReset) {
             $this->settings->resetRole($selectedRole);
+            //$this->registry->markNewBlocksAsSeen();
             return;
         }
 
@@ -228,7 +227,7 @@ class SettingsPage
         }
 
         $allSlugs = $this->registry->getAllBlockSlugs();
-        $allowed  = array_flip($allSlugs);
+        $allowed = array_flip($allSlugs);
 
         $sanitizedBlockSlugs = [];
 
@@ -241,7 +240,7 @@ class SettingsPage
 
         //Persist selection for the selected role
         $this->settings->saveRestrictedBlockSlugsForRole($selectedRole, $sanitizedBlockSlugs);
-        // Mark newly detected blocks as reviewed
+        //$this->registry->markNewBlocksAsSeen();
 
 
     }
@@ -323,6 +322,12 @@ class SettingsPage
     /**
      * Renders the list of registered blocks grouped by category.
      *
+     * This method builds a parent-child tree structure before rendering.
+     * Parent blocks are rendered first, followed by their child blocks.
+     *
+     * Child relationships are exposed via data attributes so JavaScript
+     * can later handle automatic selection behavior.
+     *
      * @param array $blocksByCategory Blocks grouped by category.
      * @param array $restrictedBlockSlugs Restricted block slugs for the selected role.
      * @return void
@@ -340,33 +345,64 @@ class SettingsPage
 
         foreach ($blocksByCategory as $category => $blocks) {
 
+
             $label = $customLabels[$category] ?? ucfirst($category);
 
             echo '<fieldset  class="bc-block-category">';
             echo '<legend><strong>' . esc_html($label) . '</strong></legend>';
             echo '<div class="bc-block-grid">';
 
+            /*
+             * ---------------------------------------
+             * Build parent-child structure
+             * ---------------------------------------
+             */
+
+            $childrenMap = [];
+
+            foreach ($blocks as $block) {
+                foreach ($block['parent'] as $parentSlug) {
+                    $childrenMap[$parentSlug][] = $block['slug'];
+                }
+            }
+
             foreach ($blocks as $block) {
 
-
+                $slug  = $block['slug'];
                 $title = $block['title'];
-                if($title === ''){
+
+                if ($title === '') {
                     continue;
                 }
 
-                $isChecked = in_array($block['slug'], $restrictedBlockSlugs, true);
-                $classes   = 'bc-block-item' . ( $isChecked ? ' is-checked' : '' );
+                $isChecked = in_array($slug, $restrictedBlockSlugs, true);
+                $classes   = 'bc-block-item' . ($isChecked ? ' is-checked' : '');
 
-                echo '<label class=" ' . esc_attr($classes) . '">';
+                $data = ' data-block="' . esc_attr($slug) . '"';
 
-                echo '<input type="checkbox" name="blocks[]" value="' . esc_attr($block['slug']) . '" ' . checked($isChecked, true, false) . '>';
+                /*
+                 * If block has children in this category
+                 */
+                if (!empty($childrenMap[$slug])) {
+                    $data .= ' data-children="' . esc_attr(implode(',', $childrenMap[$slug])) . '"';
+                }
 
+                /*
+                 * If block has parent
+                 */
+                if (!empty($block['parent'])) {
+                    $data .= ' data-parents="' . esc_attr(implode(',', $block['parent'])) . '"';
+                    $classes .= ' bc-block-item-child';
+                }
+
+                echo '<label class="' . esc_attr($classes) . '"' . $data . '>';
+                echo '<input type="checkbox" name="blocks[]" value="' . esc_attr($slug) . '" ' . checked($isChecked, true, false) . '>';
                 echo ' ' . esc_html($title);
-
                 echo '</label>';
-
             }
+
             echo '</div>';
+
 
             // Select all button below category
             echo '<div class="bc-category-actions">';
@@ -380,10 +416,11 @@ class SettingsPage
 
             echo '</fieldset>';
 
-
-
         }
     }
+
+
 }
+
 
 
