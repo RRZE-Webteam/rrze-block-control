@@ -22,7 +22,6 @@ defined('ABSPATH') || exit;
  */
 class BlockControl
 {
-
     protected Settings $settings;
     protected BlockRegistry $registry;
 
@@ -47,12 +46,11 @@ class BlockControl
      * $allBlocks = WP_Block_Type_Registry
      * $allowed = allBlocks - restricted
      *
-     *
      * @param bool|array $allowedBlocks all registered blocks so far.
      * @param \WP_Block_Editor_Context $context Editor context.
      * @return bool|array
      */
-    public function filterBlocksByRole($allowedBlocks, $context)
+    public function filterBlocksByRole($allowedBlocks, $context): bool | array
     {
         if (!$this->shouldFilterCurrentUser()) {
             return $allowedBlocks;
@@ -76,6 +74,7 @@ class BlockControl
 
         return array_values($allowedBlocks);
     }
+
 
     /**
      * Determines whether the current user should be subject to block filtering.

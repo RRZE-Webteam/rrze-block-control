@@ -59,5 +59,28 @@ class Helper
         }
     }
 
+    /**
+     * Returns a better readable label for a block category.
+     *
+     * @param string $categorySlug
+     * @return string
+     */
+    public static function getCategoryLabel(string $categorySlug): string
+    {
+        $customLabels = [
+            'rrze-plugins' => 'RRZE Plugins',
+            'rrze_elements' => 'RRZE Elements',
+            'rrze' => 'RRZE',
+            'fau-elemental/FAU' => 'FAU Elemental',
+            'fau'=> 'FAU'
+        ];
+
+        if (isset($customLabels[$categorySlug])) {
+            return $customLabels[$categorySlug];
+        }
+
+        return ucfirst(str_replace('-', ' ', $categorySlug));
+    }
+
 }
 

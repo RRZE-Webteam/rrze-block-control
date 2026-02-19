@@ -71,6 +71,9 @@ class BlockRegistry
     {
         $registry = \WP_Block_Type_Registry::get_instance();
         $allBlocks = $registry->get_all_registered();
+        if (!is_array($allBlocks) && !($allBlocks instanceof \Traversable)) {
+            return [];
+        }
 
         $groupedBlocks = [];
 
@@ -88,6 +91,11 @@ class BlockRegistry
                 'title' => $title,
                 'parent' => is_array($parent) ? $parent : [],
             ];
+        }
+        foreach ($groupedBlocks as $category => $blocks) {
+            if (empty($blocks)) {
+                unset($groupedBlocks[$category]);
+            }
         }
 
         return $groupedBlocks;
@@ -127,13 +135,16 @@ class BlockRegistry
      */
     public function getNewBlockSlugs(): array
     {
-
         $currentSlugs = $this->getAllBlockSlugs();
         $knownSlugs = get_option('rrze_block_control_known_blocks', []);
-
         if (!is_array($knownSlugs)) {
-            $knownSlugs = [];
+            $knownSlugs = (array) $knownSlugs;
         }
+        $knownSlugs = array_values(
+            array_unique(
+                array_map('strval', $knownSlugs)
+            )
+        );
 
         return array_values(array_diff($currentSlugs, $knownSlugs));
     }

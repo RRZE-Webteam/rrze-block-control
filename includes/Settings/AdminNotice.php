@@ -3,6 +3,7 @@
 namespace RRZE\BlockControl\Settings;
 
 use RRZE\BlockControl\Blocks\BlockRegistry;
+use RRZE\BlockControl\Helper;
 
 defined('ABSPATH') || exit;
 
@@ -12,14 +13,16 @@ defined('ABSPATH') || exit;
  */
 class AdminNotice
 {
+    protected BlockRegistry $registry;
     /**
      * Constructor.
      *
      * Hooks the notice renderer and dismiss handler
      * into the WordPress admin lifecycle.
      */
-    public function __construct()
+    public function __construct(BlockRegistry $registry)
     {
+        $this->registry = $registry;
         add_action('admin_notices', [$this, 'renderAdminNotice']);
         add_action('admin_init', [$this, 'handleDismiss']);
     }
@@ -35,7 +38,7 @@ class AdminNotice
             return;
         }
 
-        $registry = new BlockRegistry();
+        $registry = $this->registry;
 
         $newBlockSlugs = $registry->getNewBlockSlugs();
         $newBlockDetails = $registry->getBlockDetailsForSlugs($newBlockSlugs);
@@ -56,22 +59,22 @@ class AdminNotice
         <div class="notice notice-warning bc-admin-notice">
             <p>
                 <strong>
-                    <?php esc_html_e('New blocks detected.', 'rrze-block-control'); ?>
+                    <?php esc_html_e('RRZE Block Control: New blocks available!', 'rrze-block-control'); ?>
                 </strong>
             </p>
 
             <p>
                 <?php esc_html_e(
-                        'The following new blocks have been registered. Please review your block restrictions if necessary.',
-                        'rrze-block-control'
-                ); ?>
+                        'New blocks are available on this website. Check the block settings for user roles.',
+                        'rrze-block-control');
+                ?>
             </p>
 
             <ul class="rrze-block-control-new-blocks">
                 <?php foreach ($newBlockDetails as $block) : ?>
                     <li>
                         <?php
-                        $categoryLabel = ucwords(str_replace('-', ' ', $block['category']));
+                        $categoryLabel = Helper::getCategoryLabel($block['category']);
                         printf(
                                 '%s / %s',
                                 esc_html($categoryLabel),
@@ -115,12 +118,12 @@ class AdminNotice
         }
 
         if (!isset($_GET['_wpnonce']) ||
-            !wp_verify_nonce(wp_unslash($_GET['_wpnonce']), 'rrze_block_control_dismiss')
+                !wp_verify_nonce(wp_unslash($_GET['_wpnonce']), 'rrze_block_control_dismiss')
         ) {
             return;
         }
 
-        $registry = new BlockRegistry();
+        $registry = $this->registry;
 
         // Snapshot aktualisieren
         $registry->markNewBlocksAsSeen();

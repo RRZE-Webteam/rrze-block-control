@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-09 08:07+0000\n"
-"PO-Revision-Date: 2026-02-13 11:41+0000\n"
+"PO-Revision-Date: 2026-02-19 12:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -15,42 +15,52 @@ msgstr ""
 "X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.23\n"
 "X-Domain: rrze-block-control"
 
-#. Description of the plugin
-msgid ""
-"A wordpress Plugin to improve the UX inside the BlockEditor, whenever wanted."
-msgstr ""
-"Ein WordPress Plugin zur Verbesserung der Nutzung von Blöcken im Block "
-"Editor."
-
-#: includes/Settings/SettingsPage.php:318
+#: includes/Settings/SettingsPage.php:330
+#, fuzzy
+#| msgid "Visible blocks"
 msgid "Available blocks"
-msgstr "Verfügbare Blöcke"
+msgstr "Sichtbare Blöcke"
 
-#: includes/Settings/AdminNotice.php:85
+#: includes/Settings/AdminNotice.php:94
 msgid "Confirm"
 msgstr "Bestätigen"
+
+#. Description of the plugin
+msgid ""
+"Control which blocks are available per user role in the WordPress block "
+"editor."
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:402
+#| msgid "Hide blocks"
+msgid "Hide all blocks"
+msgstr "Alle Blöcke ausblenden"
 
 #. Author URI of the plugin
 msgid "https://www.rrze.fau.de"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:301
-msgid "Load Role"
-msgstr "Rolle laden"
+#: includes/Settings/AdminNotice.php:67
+#| msgid ""
+#| "RRZE Block Control: New blocks are available on this website. Check the "
+#| "block settings for user roles."
+msgid ""
+"New blocks are available on this website. Check the block settings for user "
+"roles."
+msgstr ""
+"Auf dieser Website sind neue Blöcke verfügbar. Überprüfen Sie die "
+"Blockeinstellungen für Benutzerrollen."
 
-#: includes/Settings/AdminNotice.php:62
-msgid "New blocks detected."
-msgstr "Neue Blöcke wurden entdeckt."
+#: includes/Settings/SettingsPage.php:331
+msgid "Only selected blocks are visible in the block editor."
+msgstr "Nur mit Haken ausgewählte Blöcke sind im Block-Editor sichtbar."
 
-#: includes/Settings/SettingsPage.php:145
-msgid "Reset Block Choice"
-msgstr "Zurücksetzen"
+#: includes/Settings/SettingsPage.php:304
+#| msgid "Reset user role all visible"
+msgid "Reset user role to all visible"
+msgstr "Alle Blöcke dieser Nutzerrolle auf sichtbar zurücksetzen"
 
-#: includes/Settings/SettingsPage.php:143
-msgid "Reset role to default."
-msgstr "Blockauswahl zurücksetzen"
-
-#: includes/Settings/AdminNotice.php:81
+#: includes/Settings/AdminNotice.php:90
 msgid "Review settings"
 msgstr "Einstellungen"
 
@@ -59,41 +69,38 @@ msgstr "Einstellungen"
 msgid "RRZE Block Control"
 msgstr ""
 
+#: includes/Settings/AdminNotice.php:62
+msgid "RRZE Block Control: New blocks available!"
+msgstr "RRZE Block Control: Neue Blöcke verfügbar!"
+
 #. Author of the plugin
 msgid "RRZE Webteam"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:137
-msgid "Save selection"
-msgstr "Auswahl speichern"
+#: includes/Settings/SettingsPage.php:134
+msgid "Save settings"
+msgstr "Einstellungen speichern"
 
-#: includes/Settings/SettingsPage.php:363
-msgid "Select all"
-msgstr "Alle auswählen"
+#: includes/Settings/SettingsPage.php:296
+msgid "Select Role"
+msgstr "Rolle auswählen"
 
-#: includes/Settings/SettingsPage.php:281
+#: includes/Settings/SettingsPage.php:276
 #| msgid "Select the role you want to configure:"
 msgid "Select the user role you want to configure:"
-msgstr "Wählen Sie die Nutzerrolle aus, die Sie bearbeiten wollen:"
+msgstr "Wählen Sie die Rolle aus, die Sie bearbeiten möchten:"
 
-#: includes/Settings/SettingsPage.php:118
-msgid "Select which blocks should be restricted for a specific user role."
-msgstr ""
-"Wählen Sie aus, welche Blöcke für eine bestimmte Benutzerrolle eingeschränkt "
-"werden sollen."
-
-#: includes/Settings/AdminNotice.php:67
+#: includes/Settings/SettingsPage.php:117
+#, fuzzy
+#| msgid ""
+#| "Select which blocks are available for this user role in the block editor."
+#| "\n"
 msgid ""
-"The following new blocks have been registered. Please review your block "
-"restrictions if necessary."
+"Select which blocks should be available for user roles in the block editor."
 msgstr ""
-"Die folgenden Blöcke wurden neu registriert. Bitte überprüfen Sie Ihre "
-"Blockbeschränkungen."
+"Wählen Sie aus, welche Blöcke für Benutzerrollen im Block-Editor zur "
+"Verfügung stehen sollen.\n"
 
-#: includes/Settings/SettingsPage.php:120
-msgid "These blocks will be hidden in the block editor."
-msgstr "Diese Blöcke werden im Block-Editor ausgeblendet."
-
-#: includes/Settings/SettingsPage.php:277
+#: includes/Settings/SettingsPage.php:272
 msgid "User role"
 msgstr "Benutzerrolle"

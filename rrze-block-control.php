@@ -3,10 +3,10 @@
 /*
  * Plugin Name: RRZE Block Control
  * Plugin URL: https://www.rrze.fau.de
- * description: A wordpress Plugin to improve the UX inside the BlockEditor, whenever wanted.
+ * description: Control which blocks are available per user role in the WordPress block editor.
  * Author: RRZE Webteam
  * Author URI: https://www.rrze.fau.de
- * Version: 0.0.1
+ * Version: 1.0.0
  * License: GPL3
  * Text domain: rrze-block-control
  * Domain Path: /languages

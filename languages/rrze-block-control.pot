@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 11:31+0000\n"
+"POT-Creation-Date: 2026-02-19 12:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,40 +16,43 @@ msgstr ""
 "X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.23\n"
 "X-Domain: rrze-block-control"
 
-#. Description of the plugin
-msgid ""
-"A wordpress Plugin to improve the UX inside the BlockEditor, whenever wanted."
-msgstr ""
-
-#: includes/Settings/SettingsPage.php:318
+#: includes/Settings/SettingsPage.php:330
 msgid "Available blocks"
 msgstr ""
 
-#: includes/Settings/AdminNotice.php:85
+#: includes/Settings/AdminNotice.php:94
 msgid "Confirm"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Control which blocks are available per user role in the WordPress block "
+"editor."
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:402
+msgid "Hide all blocks"
 msgstr ""
 
 #. Author URI of the plugin
 msgid "https://www.rrze.fau.de"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:301
-msgid "Load Role"
+#: includes/Settings/AdminNotice.php:67
+msgid ""
+"New blocks are available on this website. Check the block settings for user "
+"roles."
 msgstr ""
 
-#: includes/Settings/AdminNotice.php:62
-msgid "New blocks detected."
+#: includes/Settings/SettingsPage.php:331
+msgid "Only selected blocks are visible in the block editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:145
-msgid "Reset Block Choice"
+#: includes/Settings/SettingsPage.php:304
+msgid "Reset user role to all visible"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:143
-msgid "Reset role to default."
-msgstr ""
-
-#: includes/Settings/AdminNotice.php:81
+#: includes/Settings/AdminNotice.php:90
 msgid "Review settings"
 msgstr ""
 
@@ -58,36 +61,31 @@ msgstr ""
 msgid "RRZE Block Control"
 msgstr ""
 
+#: includes/Settings/AdminNotice.php:62
+msgid "RRZE Block Control: New blocks available!"
+msgstr ""
+
 #. Author of the plugin
 msgid "RRZE Webteam"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:137
-msgid "Save selection"
+#: includes/Settings/SettingsPage.php:134
+msgid "Save settings"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:363
-msgid "Select all"
+#: includes/Settings/SettingsPage.php:296
+msgid "Select Role"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:281
+#: includes/Settings/SettingsPage.php:276
 msgid "Select the user role you want to configure:"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:118
-msgid "Select which blocks should be restricted for a specific user role."
-msgstr ""
-
-#: includes/Settings/AdminNotice.php:67
+#: includes/Settings/SettingsPage.php:117
 msgid ""
-"The following new blocks have been registered. Please review your block "
-"restrictions if necessary."
+"Select which blocks should be available for user roles in the block editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:120
-msgid "These blocks will be hidden in the block editor."
-msgstr ""
-
-#: includes/Settings/SettingsPage.php:277
+#: includes/Settings/SettingsPage.php:272
 msgid "User role"
 msgstr ""

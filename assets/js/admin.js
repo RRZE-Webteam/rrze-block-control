@@ -168,4 +168,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    /*
+     * -----------------------------------------
+     * "Select all" toggle per category
+     * -----------------------------------------
+     */
+    document.querySelectorAll('.bc-select-all-category').forEach(function (button) {
+
+        button.addEventListener('click', function () {
+
+            const fieldset = button.closest('.bc-block-category');
+            if (!fieldset) return;
+
+            const checkboxes = fieldset.querySelectorAll('.bc-block-grid input[type="checkbox"]');
+            const hideAll = !button.classList.contains('is-active');
+
+            checkboxes.forEach(function (checkbox) {
+
+                const newState = !hideAll; // hideAll=true → checked=false
+
+                if (checkbox.checked === newState) return;
+
+                checkbox.checked = newState;
+                checkbox.dispatchEvent(new Event('change', {bubbles: true}));
+            });
+
+            /*
+             * Active state means: all blocks hidden
+             */
+            button.classList.toggle('is-active', hideAll);
+        });
+    });
+
 });

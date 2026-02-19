@@ -40,7 +40,7 @@ class Main
 
         if (is_admin()) {
             new SettingsPage($settings, $registry);
-            new AdminNotice($settings);
+            new AdminNotice($registry);
         }
     }
 }
