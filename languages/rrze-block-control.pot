@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 12:15+0000\n"
+"POT-Creation-Date: 2026-02-19 14:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.23\n"
 "X-Domain: rrze-block-control"
 
-#: includes/Settings/SettingsPage.php:330
+#: includes/Settings/SettingsPage.php:331
 msgid "Available blocks"
 msgstr ""
 
@@ -30,7 +30,7 @@ msgid ""
 "editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:402
+#: includes/Settings/SettingsPage.php:403
 msgid "Hide all blocks"
 msgstr ""
 
@@ -44,11 +44,11 @@ msgid ""
 "roles."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:331
+#: includes/Settings/SettingsPage.php:332
 msgid "Only selected blocks are visible in the block editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:304
+#: includes/Settings/SettingsPage.php:141
 msgid "Reset user role to all visible"
 msgstr ""
 
@@ -73,11 +73,11 @@ msgstr ""
 msgid "Save settings"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:296
+#: includes/Settings/SettingsPage.php:304
 msgid "Select Role"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:276
+#: includes/Settings/SettingsPage.php:284
 msgid "Select the user role you want to configure:"
 msgstr ""
 
@@ -86,6 +86,10 @@ msgid ""
 "Select which blocks should be available for user roles in the block editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:272
+#: includes/Blocks/RestrictionNotice.php:60
+msgid "Some blocks are not available due to your user role."
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:280
 msgid "User role"
 msgstr ""

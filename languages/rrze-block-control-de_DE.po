@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-09 08:07+0000\n"
-"PO-Revision-Date: 2026-02-19 12:21+0000\n"
+"PO-Revision-Date: 2026-02-19 14:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.23\n"
 "X-Domain: rrze-block-control"
 
-#: includes/Settings/SettingsPage.php:330
+#: includes/Settings/SettingsPage.php:331
 #, fuzzy
 #| msgid "Visible blocks"
 msgid "Available blocks"
@@ -31,7 +31,7 @@ msgid ""
 "editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:402
+#: includes/Settings/SettingsPage.php:403
 #| msgid "Hide blocks"
 msgid "Hide all blocks"
 msgstr "Alle Blöcke ausblenden"
@@ -51,11 +51,11 @@ msgstr ""
 "Auf dieser Website sind neue Blöcke verfügbar. Überprüfen Sie die "
 "Blockeinstellungen für Benutzerrollen."
 
-#: includes/Settings/SettingsPage.php:331
+#: includes/Settings/SettingsPage.php:332
 msgid "Only selected blocks are visible in the block editor."
 msgstr "Nur mit Haken ausgewählte Blöcke sind im Block-Editor sichtbar."
 
-#: includes/Settings/SettingsPage.php:304
+#: includes/Settings/SettingsPage.php:141
 #| msgid "Reset user role all visible"
 msgid "Reset user role to all visible"
 msgstr "Alle Blöcke dieser Nutzerrolle auf sichtbar zurücksetzen"
@@ -81,11 +81,11 @@ msgstr ""
 msgid "Save settings"
 msgstr "Einstellungen speichern"
 
-#: includes/Settings/SettingsPage.php:296
+#: includes/Settings/SettingsPage.php:304
 msgid "Select Role"
 msgstr "Rolle auswählen"
 
-#: includes/Settings/SettingsPage.php:276
+#: includes/Settings/SettingsPage.php:284
 #| msgid "Select the role you want to configure:"
 msgid "Select the user role you want to configure:"
 msgstr "Wählen Sie die Rolle aus, die Sie bearbeiten möchten:"
@@ -101,6 +101,10 @@ msgstr ""
 "Wählen Sie aus, welche Blöcke für Benutzerrollen im Block-Editor zur "
 "Verfügung stehen sollen.\n"
 
-#: includes/Settings/SettingsPage.php:272
+#: includes/Blocks/RestrictionNotice.php:60
+msgid "Some blocks are not available due to your user role."
+msgstr "Einige Blöcke sind aufgrund Ihrer Benutzerrolle nicht verfügbar."
+
+#: includes/Settings/SettingsPage.php:280
 msgid "User role"
 msgstr "Benutzerrolle"
