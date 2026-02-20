@@ -1,4 +1,4 @@
-/vendor/
+
 /node_modules/
 nbproject*
 .idea
@@ -21,7 +21,7 @@ composer.lock
 _tmp/
 
 ### Composer ###
-/vendor/
+
 /wordpress-tests/
 wordpress-tests/
 
