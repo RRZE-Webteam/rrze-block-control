@@ -56,8 +56,10 @@ function blockControlPluginActivation(): void
     blockControlCheckSystemRequirements();
     blockControlIncludeAutoloader();
 
-    // Your required activation steps here, if there are any
-    // For example defining a global option, etc.
+    // Create initial snapshot of all currently registered blocks
+    // so that no admin notice is shown on first installation
+    $registry = new \RRZE\BlockControl\Blocks\BlockRegistry();
+    $registry->markNewBlocksAsSeen();
 }
 
 /**
@@ -112,11 +114,11 @@ function blockControlCheckSystemRequirements(): void
 {
     $error = '';
     if (version_compare(PHP_VERSION, RRZE_BLOCKCONTROL_PHP_VERSION, '<')) {
-        $error = sprintf(__('Your server is running PHP version %s. Please upgrade at least to PHP version %s.', 'rrze-block_control'), PHP_VERSION, RRZE_BLOCKCONTROL_PHP_VERSION);
+        $error = sprintf(__('Your server is running PHP version %s. Please upgrade at least to PHP version %s.', 'rrze-block-control'), PHP_VERSION, RRZE_BLOCKCONTROL_PHP_VERSION);
     }
 
     if (version_compare($GLOBALS['wp_version'], RRZE_BLOCKCONTROL_WP_VERSION, '<')) {
-        $error = sprintf(__('Your Wordpress version is %s. Please upgrade at least to Wordpress version %s.', 'rrze-block_control'), $GLOBALS['wp_version'], RRZE_BLOCKCONTROL_WP_VERSION);
+        $error = sprintf(__('Your Wordpress version is %s. Please upgrade at least to Wordpress version %s.', 'rrze-block-control'), $GLOBALS['wp_version'], RRZE_BLOCKCONTROL_WP_VERSION);
     }
 
     if (!empty($error)) {
