@@ -18,7 +18,6 @@ defined('ABSPATH') || exit;
  */
 class BlockRegistry
 {
-
     /**
      * Cached block list grouped by category.
      *

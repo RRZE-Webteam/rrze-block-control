@@ -39,7 +39,7 @@ class Main
         $settings = new Settings();
 
         new BlockControl($settings, $registry);
-        new Blocks\RestrictionNotice($settings);
+        new RestrictionNotice($settings);
 
         if (is_admin()) {
             new SettingsPage($settings, $registry);

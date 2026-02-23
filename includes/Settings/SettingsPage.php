@@ -63,7 +63,6 @@ class SettingsPage
             filemtime(dirname(__DIR__, 2) . '/assets/js/admin.js'),
             true
         );
-
     }
 
 
@@ -82,7 +81,6 @@ class SettingsPage
             'rrze-block-control',
             [$this, 'renderSettingsPage']
         );
-
     }
 
 
@@ -100,32 +98,24 @@ class SettingsPage
 
     public function renderSettingsPage(): void
     {
-        // 1. Determine current role context
         $selectedRole = $this->getSelectedRole();
 
-        // 2. Handle form submission (if any)
         $this->handleFormSubmit($selectedRole);
 
-        // 3. Load data required for rendering
         $blocksByCategory = $this->getRegisteredBlocksByCategory();
         $restrictedBlockSlugs = $this->getRestrictedBlockSlugsForRole($selectedRole);
 
-
-        // 4. Render page wrapper
         echo '<div class="wrap">';
         echo '<h1>' . esc_html(__('RRZE Block Control', 'rrze-block-control')) . '</h1>';
         echo '<p>' . esc_html(__('Select which blocks should be available for user roles in the block editor.', 'rrze-block-control')) . '</p>';
 
-        // 5. Render settings form
         echo '<form method="post">';
 
         // Security nonce
         wp_nonce_field('rrze_block_control_save', 'rrze_block_control_nonce');
 
-        // Role selector
         $this->renderRoleSelector($selectedRole);
 
-        // Block list
         $this->renderBlockSlugList($blocksByCategory, $restrictedBlockSlugs);
 
         // Submit button
@@ -135,7 +125,6 @@ class SettingsPage
         echo '</p>';
 
         //Reset Button
-
         echo '<div class="bc-role-reset">';
         echo '<button type="submit" name="rrze_block_control_reset_role" class="bc-reset-link">';
         echo esc_html__('Reset user role to all visible', 'rrze-block-control');
@@ -204,6 +193,7 @@ class SettingsPage
             !wp_verify_nonce($_POST['rrze_block_control_nonce'], 'rrze_block_control_save')
         ) {
             return;
+
         }
 
         if ($isReset) {
@@ -247,6 +237,7 @@ class SettingsPage
     public function getRegisteredBlocksByCategory(): array
     {
         return $this->registry->getBlockSlugsByCategory();
+
     }
 
 
@@ -288,7 +279,6 @@ class SettingsPage
 
 
         echo '<div class="bc-role-selector">';
-
         echo '<select name="role" id="rrze-block-control-role">';
         foreach ($roles as $roleSlug => $roleData) {
             $selected = ($roleSlug === $selectedRole) ? 'selected' : '';
@@ -303,7 +293,6 @@ class SettingsPage
         echo '<p class="bc-load-role-button">';
         echo '<input type="submit" name="rrze_block_control_change_role" class="button button-primary" value="' . esc_attr__('Select Role', 'rrze-block-control') . '">';
         echo '</p>';
-
         echo '</div>';
 
     }
@@ -343,7 +332,7 @@ class SettingsPage
 
             /*
              * ---------------------------------------
-             * Build parent-child structure
+             * parent-child structure
              * ---------------------------------------
              */
 
@@ -370,16 +359,13 @@ class SettingsPage
 
                 $data = ' data-block="' . esc_attr($slug) . '"';
 
-                /*
-                 * If block has children in this category
-                 */
+
+                 //If block has children in this category
                 if (!empty($childrenMap[$slug])) {
                     $data .= ' data-children="' . esc_attr(implode(',', $childrenMap[$slug])) . '"';
                 }
 
-                /*
-                 * If block has parent
-                 */
+                 // If block has parent
                 if (!empty($block['parent'])) {
                     $data .= ' data-parents="' . esc_attr(implode(',', $block['parent'])) . '"';
                     $classes .= ' bc-block-item-child';
@@ -394,7 +380,7 @@ class SettingsPage
             echo '</div>';
 
 
-            // Select all Toggle below category
+            // Select toggle
             echo '<div class="bc-category-actions">';
             echo '<button type="button" class="bc-select-all-category bc-toggle">';
             echo '<span class="bc-toggle-knob" aria-hidden="true"></span>';
@@ -406,11 +392,8 @@ class SettingsPage
 
             echo '</fieldset>';
 
-
         }
     }
-
-
 }
 
 

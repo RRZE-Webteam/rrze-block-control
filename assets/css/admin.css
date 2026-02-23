@@ -1,6 +1,5 @@
 
 /* show block select button next to select field */
-
 .bc-role-selector {
     display: flex;
     align-items: center;
@@ -9,7 +8,6 @@
 
 .bc-submit {
     margin: 2rem 0 2rem 0;
-
 }
 
 .bc-role-selector select {
@@ -45,7 +43,6 @@
     margin: 0 0 1.8rem .1rem;
     position: relative;
 }
-
 
 /*separator*/
 .bc-block-category::before {
@@ -83,7 +80,6 @@
     align-items: center;
     gap: 0.35rem;
 }
-
 
 /*toggle Button registered blocks*/
 .bc-toggle {

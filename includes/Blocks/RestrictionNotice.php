@@ -14,6 +14,7 @@ defined('ABSPATH') || exit;
 class RestrictionNotice
 {
     protected Settings $settings;
+
     /**
      * Constructor.
      *

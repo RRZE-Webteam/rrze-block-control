@@ -6,8 +6,8 @@ Select which Gutenberg blocks stay available per user role, hide entire block ca
 ## Features
 - **Role-aware block blacklist** – Choose a role, mark the blocks that should be hidden, and save the selection. Everything else stays available for that role.
 - **Parent/child awareness** – Enabling a child block automatically enables its parents; disabling a parent disables its entire branch, avoiding inconsistent states.
-- **Category toggles** – Each block category offers a “Hide all” toggle that checks or unchecks every block inside the group in one click.
-- **Reset to defaults** – Clear the stored restrictions for the active role via the “Reset block choice” button.
+- **Category toggles** – Each block category offers a “Hide all blocks” toggle that checks or unchecks every block inside the group in one click.
+- **Reset to defaults** – Clear the stored restrictions for the active role via the “Reset user role” button.
 - **New block detection** – When a plugin registers new blocks, an admin notice lists them until you confirm the change. This keeps restrictions up to date after plugin installs.
 
 ## Requirements
@@ -19,9 +19,9 @@ Select which Gutenberg blocks stay available per user role, hide entire block ca
 ## Usage
 1. Navigate to *Settings → RRZE Block Control*.
 2. Select the role you want to configure.
-3. Use the per-block checkboxes or the category “Hide all” toggle to block specific blocks.
-4. Click **Save selection**.
-5. Use **Reset block choice** to remove the blacklist for the current role.
+3. Use the per-block checkboxes or the category “Hide all blocks” toggle to block specific blocks.
+4. Click **Save settings**.
+5. Use **Reset user role** to remove the blacklist for the current role.
 
 When you activate a plugin that registers additional Gutenberg blocks, visit any admin page: an admin notice lists the new block names and categories. Use the **Confirm** button in that notice to acknowledge the additions after you have updated the restrictions.
 

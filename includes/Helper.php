@@ -8,7 +8,17 @@ defined('ABSPATH') || exit;
 
 class Helper
 {
-    public static function debug($input, string $level = 'i')
+    /**
+     * Writes debug entries into the WordPress log if WP_DEBUG is enabled.
+     *
+     * Handles scalar and array/object input, resolves the log path from
+     * WP_DEBUG_LOG and normalizes the provided log level shorthand.
+     *
+     * @param mixed  $input Arbitrary debug payload.
+     * @param string $level Log level shorthand (i, d, e), defaults to info.
+     * @return void
+     */
+    public static function debug($input, string $level = 'i'): void
     {
         if (!WP_DEBUG) {
             return;
@@ -50,7 +60,12 @@ class Helper
         );
     }
 
-    public static function isDebug()
+    /**
+     * Checks whether WordPress currently runs in debug mode.
+     *
+     * @return bool
+     */
+    public static function isDebug(): bool
     {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             return true; // Debug ON
@@ -83,4 +98,3 @@ class Helper
     }
 
 }
-

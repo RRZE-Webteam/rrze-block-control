@@ -14,6 +14,7 @@ defined('ABSPATH') || exit;
 class AdminNotice
 {
     protected BlockRegistry $registry;
+
     /**
      * Constructor.
      *
@@ -43,7 +44,6 @@ class AdminNotice
         $newBlockSlugs = $registry->getNewBlockSlugs();
         $newBlockDetails = $registry->getBlockDetailsForSlugs($newBlockSlugs);
 
-        // Wenn keine neuen Blöcke → keine Notice
         if (empty($newBlockDetails)) {
             return;
         }
@@ -125,7 +125,7 @@ class AdminNotice
 
         $registry = $this->registry;
 
-        // Snapshot aktualisieren
+        // Snapshot Update
         $registry->markNewBlocksAsSeen();
 
         wp_safe_redirect(remove_query_arg(['rrze_block_control_dismiss', '_wpnonce']));
