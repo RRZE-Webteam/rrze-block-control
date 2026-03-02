@@ -39,6 +39,21 @@ class AdminNotice
             return;
         }
 
+        $screen = get_current_screen();
+
+        if (!$screen) {
+            return;
+        }
+
+        $allowedScreens = [
+                'dashboard',
+                'settings_page_rrze-block-control',
+        ];
+
+        if (!in_array($screen->id, $allowedScreens, true)) {
+            return;
+        }
+
         $registry = $this->registry;
 
         $newBlockSlugs = $registry->getNewBlockSlugs();
