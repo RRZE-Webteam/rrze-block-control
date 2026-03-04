@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 14:16+0000\n"
+"POT-Creation-Date: 2026-03-04 09:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,11 +16,15 @@ msgstr ""
 "X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.23\n"
 "X-Domain: rrze-block-control"
 
-#: includes/Settings/SettingsPage.php:331
+#: includes/Settings/SettingsPage.php:111
+msgid "Administrators are always allowed to use all blocks."
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:325
 msgid "Available blocks"
 msgstr ""
 
-#: includes/Settings/AdminNotice.php:94
+#: includes/Settings/AdminNotice.php:110
 msgid "Confirm"
 msgstr ""
 
@@ -30,7 +34,7 @@ msgid ""
 "editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:403
+#: includes/Settings/SettingsPage.php:394
 msgid "Hide all blocks"
 msgstr ""
 
@@ -38,30 +42,30 @@ msgstr ""
 msgid "https://www.rrze.fau.de"
 msgstr ""
 
-#: includes/Settings/AdminNotice.php:67
+#: includes/Settings/AdminNotice.php:83
 msgid ""
 "New blocks are available on this website. Check the block settings for user "
 "roles."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:332
+#: includes/Settings/SettingsPage.php:326
 msgid "Only selected blocks are visible in the block editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:141
+#: includes/Settings/SettingsPage.php:130
 msgid "Reset user role to all visible"
 msgstr ""
 
-#: includes/Settings/AdminNotice.php:90
+#: includes/Settings/AdminNotice.php:106
 msgid "Review settings"
 msgstr ""
 
 #. Name of the plugin
-#: includes/Settings/SettingsPage.php:116
+#: includes/Settings/SettingsPage.php:109
 msgid "RRZE Block Control"
 msgstr ""
 
-#: includes/Settings/AdminNotice.php:62
+#: includes/Settings/AdminNotice.php:78
 msgid "RRZE Block Control: New blocks available!"
 msgstr ""
 
@@ -69,27 +73,41 @@ msgstr ""
 msgid "RRZE Webteam"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:134
+#: includes/Settings/SettingsPage.php:124
 msgid "Save settings"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:304
+#: includes/Settings/SettingsPage.php:299
 msgid "Select Role"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:284
+#: includes/Settings/SettingsPage.php:280
 msgid "Select the user role you want to configure:"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:117
+#: includes/Settings/SettingsPage.php:110
 msgid ""
 "Select which blocks should be available for user roles in the block editor."
 msgstr ""
 
-#: includes/Blocks/RestrictionNotice.php:60
+#: includes/Blocks/RestrictionNotice.php:61
 msgid "Some blocks are not available due to your user role."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:280
+#: includes/Settings/SettingsPage.php:276
 msgid "User role"
+msgstr ""
+
+#: rrze-block-control.php:117
+#, php-format
+msgid ""
+"Your server is running PHP version %s. Please upgrade at least to PHP "
+"version %s."
+msgstr ""
+
+#: rrze-block-control.php:121
+#, php-format
+msgid ""
+"Your Wordpress version is %s. Please upgrade at least to Wordpress version "
+"%s."
 msgstr ""

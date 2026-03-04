@@ -48,6 +48,7 @@ class AdminNotice
         $allowedScreens = [
                 'dashboard',
                 'settings_page_rrze-block-control',
+                'plugins',
         ];
 
         if (!in_array($screen->id, $allowedScreens, true)) {

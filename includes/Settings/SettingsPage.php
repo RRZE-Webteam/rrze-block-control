@@ -108,7 +108,7 @@ class SettingsPage
         echo '<div class="wrap">';
         echo '<h1>' . esc_html(__('RRZE Block Control', 'rrze-block-control')) . '</h1>';
         echo '<p>' . esc_html(__('Select which blocks should be available for user roles in the block editor.', 'rrze-block-control')) . '</p>';
-
+        echo '<p>' . esc_html(__('Administrators are always allowed to use all blocks.', 'rrze-block-control')) . '</p>';
         echo '<form method="post">';
 
         // Security nonce
@@ -147,7 +147,10 @@ class SettingsPage
      */
     public function getSelectedRole(): string
     {
-        $availableRoles = array_keys(get_editable_roles());
+        $roles = get_editable_roles();
+        unset($roles['administrator']);
+
+        $availableRoles = array_keys($roles);
 
         if (isset ($_POST['role'])) {
             $selectedRole = sanitize_text_field(wp_unslash($_POST['role']));
@@ -266,6 +269,8 @@ class SettingsPage
     public function renderRoleSelector(string $selectedRole): void
     {
         $roles = get_editable_roles();
+
+        unset($roles['administrator']);
 
         echo '<div class="bc-user-role">';
         echo '<h2>' . esc_html(__('User role', 'rrze-block-control')) . '</h2>';

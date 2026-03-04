@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-09 08:07+0000\n"
-"PO-Revision-Date: 2026-02-19 14:18+0000\n"
+"PO-Revision-Date: 2026-03-04 09:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -15,13 +15,17 @@ msgstr ""
 "X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.23\n"
 "X-Domain: rrze-block-control"
 
-#: includes/Settings/SettingsPage.php:331
+#: includes/Settings/SettingsPage.php:111
+msgid "Administrators are always allowed to use all blocks."
+msgstr "Administratoren dürfen immer alle Blöcke verwenden."
+
+#: includes/Settings/SettingsPage.php:325
 #, fuzzy
 #| msgid "Visible blocks"
 msgid "Available blocks"
 msgstr "Sichtbare Blöcke"
 
-#: includes/Settings/AdminNotice.php:94
+#: includes/Settings/AdminNotice.php:110
 msgid "Confirm"
 msgstr "Bestätigen"
 
@@ -30,8 +34,10 @@ msgid ""
 "Control which blocks are available per user role in the WordPress block "
 "editor."
 msgstr ""
+"Steuern Sie, welche Blöcke pro Benutzerrolle im WordPress-Block-Editor "
+"verfügbar sind."
 
-#: includes/Settings/SettingsPage.php:403
+#: includes/Settings/SettingsPage.php:394
 #| msgid "Hide blocks"
 msgid "Hide all blocks"
 msgstr "Alle Blöcke ausblenden"
@@ -40,7 +46,7 @@ msgstr "Alle Blöcke ausblenden"
 msgid "https://www.rrze.fau.de"
 msgstr ""
 
-#: includes/Settings/AdminNotice.php:67
+#: includes/Settings/AdminNotice.php:83
 #| msgid ""
 #| "RRZE Block Control: New blocks are available on this website. Check the "
 #| "block settings for user roles."
@@ -51,25 +57,25 @@ msgstr ""
 "Auf dieser Website sind neue Blöcke verfügbar. Überprüfen Sie die "
 "Blockeinstellungen für Benutzerrollen."
 
-#: includes/Settings/SettingsPage.php:332
+#: includes/Settings/SettingsPage.php:326
 msgid "Only selected blocks are visible in the block editor."
 msgstr "Nur mit Haken ausgewählte Blöcke sind im Block-Editor sichtbar."
 
-#: includes/Settings/SettingsPage.php:141
+#: includes/Settings/SettingsPage.php:130
 #| msgid "Reset user role all visible"
 msgid "Reset user role to all visible"
 msgstr "Alle Blöcke dieser Nutzerrolle auf sichtbar zurücksetzen"
 
-#: includes/Settings/AdminNotice.php:90
+#: includes/Settings/AdminNotice.php:106
 msgid "Review settings"
 msgstr "Einstellungen"
 
 #. Name of the plugin
-#: includes/Settings/SettingsPage.php:116
+#: includes/Settings/SettingsPage.php:109
 msgid "RRZE Block Control"
 msgstr ""
 
-#: includes/Settings/AdminNotice.php:62
+#: includes/Settings/AdminNotice.php:78
 msgid "RRZE Block Control: New blocks available!"
 msgstr "RRZE Block Control: Neue Blöcke verfügbar!"
 
@@ -77,20 +83,20 @@ msgstr "RRZE Block Control: Neue Blöcke verfügbar!"
 msgid "RRZE Webteam"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:134
+#: includes/Settings/SettingsPage.php:124
 msgid "Save settings"
 msgstr "Einstellungen speichern"
 
-#: includes/Settings/SettingsPage.php:304
+#: includes/Settings/SettingsPage.php:299
 msgid "Select Role"
 msgstr "Rolle auswählen"
 
-#: includes/Settings/SettingsPage.php:284
+#: includes/Settings/SettingsPage.php:280
 #| msgid "Select the role you want to configure:"
 msgid "Select the user role you want to configure:"
 msgstr "Wählen Sie die Rolle aus, die Sie bearbeiten möchten:"
 
-#: includes/Settings/SettingsPage.php:117
+#: includes/Settings/SettingsPage.php:110
 #, fuzzy
 #| msgid ""
 #| "Select which blocks are available for this user role in the block editor."
@@ -101,10 +107,28 @@ msgstr ""
 "Wählen Sie aus, welche Blöcke für Benutzerrollen im Block-Editor zur "
 "Verfügung stehen sollen.\n"
 
-#: includes/Blocks/RestrictionNotice.php:60
+#: includes/Blocks/RestrictionNotice.php:61
 msgid "Some blocks are not available due to your user role."
 msgstr "Einige Blöcke sind aufgrund Ihrer Benutzerrolle nicht verfügbar."
 
-#: includes/Settings/SettingsPage.php:280
+#: includes/Settings/SettingsPage.php:276
 msgid "User role"
 msgstr "Benutzerrolle"
+
+#: rrze-block-control.php:117
+#, php-format
+msgid ""
+"Your server is running PHP version %s. Please upgrade at least to PHP "
+"version %s."
+msgstr ""
+"Ihr Server läuft mit PHP Version %s. Bitte aktualisieren Sie mindestens auf "
+"PHP Version %s."
+
+#: rrze-block-control.php:121
+#, php-format
+msgid ""
+"Your Wordpress version is %s. Please upgrade at least to Wordpress version "
+"%s."
+msgstr ""
+"Ihre WordPress-Version ist %s. Bitte aktualisieren Sie mindestens auf "
+"WordPress-Version %s."
