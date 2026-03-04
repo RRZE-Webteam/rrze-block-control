@@ -102,11 +102,11 @@ class AdminNotice
             </ul>
 
             <p>
-                <a href="<?php echo esc_url($settingsUrl); ?>" class="button button-primary">
+                <a href="<?php echo esc_url($settingsUrl); ?>" class="button ">
                     <?php esc_html_e('Review settings', 'rrze-block-control'); ?>
                 </a>
 
-                <a href="<?php echo esc_url($dismissUrl); ?>" class="button">
+                <a href="<?php echo esc_url($dismissUrl); ?>" class="button button-primary">
                     <?php esc_html_e('Confirm', 'rrze-block-control'); ?>
                 </a>
             </p>
