@@ -1,0 +1,137 @@
+
+/* show block select button next to select field */
+.bc-role-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.bc-submit {
+    margin: 2rem 0 2rem 0;
+}
+
+.bc-role-selector select {
+    min-width: 200px;
+}
+
+.bc-user-role {
+    margin-top: 2rem;
+}
+
+/* reset link*/
+.bc-role-reset {
+    margin: 1.6rem 0 2rem 0;
+}
+
+.bc-reset-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    color: #2271b1;
+    text-decoration: underline;
+}
+
+.bc-block-slug-list{
+    margin-top: 3rem;
+}
+
+/* show categories in columns */
+.bc-block-category {
+    border: 0;
+    padding: 1.5rem 0 0;
+    margin: 0 0 1.8rem .1rem;
+    position: relative;
+}
+
+/*separator*/
+.bc-block-category::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: #dcdcde;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1rem;
+}
+
+/* category title*/
+.bc-block-category legend {
+    padding: 0.6rem 0.5rem;
+    font-weight: 600;
+    font-size: 1.3em;
+    color: #1d2327;
+    position: relative;
+    top: 1rem;
+}
+
+
+.bc-block-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem 1.25rem;
+    margin: 0.75rem;
+}
+
+.bc-block-item {
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/*toggle Button registered blocks*/
+.bc-toggle {
+    position: relative;
+    width: 42px;
+    height: 22px;
+    background: #abadaf;
+    border-radius: 22px;
+    border: none;
+    padding: 0;
+    margin-top: 0.8rem;
+}
+
+.bc-toggle-knob {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: all 0.2s ease;
+}
+
+.bc-toggle.is-active {
+    background: var(--wp-admin-theme-color, #2271b1);
+}
+
+.bc-toggle.is-active .bc-toggle-knob {
+    left: 22px;
+    color: #fff;
+}
+
+/*select all text next to toggle button*/
+.bc-category-actions {
+    display:flex;
+    align-items:end;
+    gap:0.5rem;
+}
+
+/*admin notice*/
+.bc-admin-notice ul {
+    list-style: disc;
+    margin: 0.5em 0 1.5em 1.5em;
+}
+
+.bc-admin-notice ul li {
+    margin-bottom: 0.25em;
+}
+
+/* When checkbox is checked, strike the block title */
+.bc-block-item input[type="checkbox"]:not(:checked) + .bc-block-title {
+    text-decoration: line-through;
+    opacity: 0.6;
+}

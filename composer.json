@@ -1,0 +1,13 @@
+{
+    "name": "rrze/block-control",
+    "description": "A Plugin to limit the Block-Types in the BlockEditor",
+    "type": "wordpress-plugin",
+    "license": "GPL",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "RRZE\\BlockControl\\": "includes/"
+            //"RRZE\\BlockControl\\Blocks\\": "includes/Blocks/"
+        }
+    }
+}
