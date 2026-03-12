@@ -109,12 +109,19 @@ class SettingsPage
         echo '<h1>' . esc_html(__('RRZE Block Control', 'rrze-block-control')) . '</h1>';
         echo '<p>' . esc_html(__('Select which blocks should be available for user roles in the block editor.', 'rrze-block-control')) . '</p>';
         echo '<p>' . esc_html(__('Administrators are always allowed to use all blocks.', 'rrze-block-control')) . '</p>';
-        echo '<form method="post">';
 
-        // Security nonce
-        wp_nonce_field('rrze_block_control_save', 'rrze_block_control_nonce');
+        //GET Form for role switch
+        echo '<form method="get">';
+        echo '<input type="hidden" name="page" value="rrze-block-control">';
 
         $this->renderRoleSelector($selectedRole);
+
+        echo '</form>';
+
+        //Saving Settings
+        echo '<form method="post">';
+        // Security nonce
+        wp_nonce_field('rrze_block_control_save', 'rrze_block_control_nonce');
 
         $this->renderBlockSlugList($blocksByCategory, $restrictedBlockSlugs);
 
@@ -152,8 +159,8 @@ class SettingsPage
 
         $availableRoles = array_keys($roles);
 
-        if (isset ($_POST['role'])) {
-            $selectedRole = sanitize_text_field(wp_unslash($_POST['role']));
+        if (isset ($_GET['role'])) {
+            $selectedRole = sanitize_text_field(wp_unslash($_GET['role']));
             if (in_array($selectedRole, $availableRoles, true)) {
                 return $selectedRole;
             }
@@ -178,7 +185,7 @@ class SettingsPage
      * @param string $selectedRole The role for which the block selection is saved.
      * @return void
      */
-    public function handleFormSubmit($selectedRole): void
+    public function handleFormSubmit(string $selectedRole): void
     {
         $isSave = isset($_POST['rrze_block_control_submit']);
         $isReset = isset($_POST['rrze_block_control_reset_role']);
@@ -284,20 +291,15 @@ class SettingsPage
 
 
         echo '<div class="bc-role-selector">';
-        echo '<select name="role" id="rrze-block-control-role">';
+        echo '<select name="role" id="rrze-block-control-role" onchange="this.form.submit()">';
         foreach ($roles as $roleSlug => $roleData) {
             $selected = ($roleSlug === $selectedRole) ? 'selected' : '';
 
-            echo '<option value="' . esc_attr($roleSlug) . '" ' . $selected . '>';
+            echo '<option value="' . esc_attr($roleSlug) . '" ' . selected($roleSlug, $selectedRole, false) . '>';
             echo esc_html(translate_user_role($roleData['name'])); //shows correct language in select field
             echo '</option>';
         }
         echo '</select>';
-
-        // Submit button
-        echo '<p class="bc-load-role-button">';
-        echo '<input type="submit" name="rrze_block_control_change_role" class="button button-primary" value="' . esc_attr__('Select Role', 'rrze-block-control') . '">';
-        echo '</p>';
         echo '</div>';
 
     }
@@ -323,7 +325,7 @@ class SettingsPage
     {
         echo '<div class="bc-block-slug-list">';
         echo '<h2>' . esc_html(__('Available blocks', 'rrze-block-control')) . '</h2>';
-        echo '<p>' . esc_html(__('Only selected blocks are visible in the block editor.', 'rrze-block-control')) . '</p>';
+        echo '<p>' . esc_html(__('Only selected blocks are available in the block editor.', 'rrze-block-control')) . '</p>';
         echo '</div>';
 
         foreach ($blocksByCategory as $category => $blocks) {
@@ -341,36 +343,30 @@ class SettingsPage
              * ---------------------------------------
              */
 
-            $childrenMap = [];
-
-            foreach ($blocks as $block) {
-                foreach ($block['parent'] as $parentSlug) {
-                    $childrenMap[$parentSlug][] = $block['slug'];
-                }
-            }
+            $childrenMap = $this->buildChildrenMap($blocks);
 
             foreach ($blocks as $block) {
 
                 $slug = $block['slug'];
-                $title = $block['title'];
+                $title = $block['title'] ?? '';
 
                 if ($title === '') {
                     continue;
                 }
-
-                $isRestricted = in_array($slug, $restrictedBlockSlugs, true);
+                $restrictedMap = array_flip($restrictedBlockSlugs);
+                $isRestricted = isset($restrictedMap[$slug]);
                 $isChecked = !$isRestricted;
                 $classes = 'bc-block-item' . ($isChecked ? ' is-checked' : '');
 
                 $data = ' data-block="' . esc_attr($slug) . '"';
 
 
-                 //If block has children in this category
+                //If block has children in this category
                 if (!empty($childrenMap[$slug])) {
                     $data .= ' data-children="' . esc_attr(implode(',', $childrenMap[$slug])) . '"';
                 }
 
-                 // If block has parent
+                // If block has parent
                 if (!empty($block['parent'])) {
                     $data .= ' data-parents="' . esc_attr(implode(',', $block['parent'])) . '"';
                     $classes .= ' bc-block-item-child';
@@ -399,6 +395,29 @@ class SettingsPage
 
         }
     }
+
+        /**
+         * Builds a map of parent block slugs to their child block slugs.
+         *
+         * This allows the UI to know which blocks depend on others.
+         *
+         * @param array $blocks List of blocks in the current category.
+         * @return array Map of parentSlug => [childSlug, childSlug]
+         */
+        private function buildChildrenMap(array $blocks): array
+    {
+        $map = [];
+
+        foreach ($blocks as $block) {
+
+            foreach ($block['parent'] ?? [] as $parentSlug) {
+                $map[$parentSlug][] = $block['slug'];
+            }
+        }
+
+        return $map;
+    }
+
 }
 
 

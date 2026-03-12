@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RRZE Block Control\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-04 09:02+0000\n"
+"POT-Creation-Date: 2026-03-12 08:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Administrators are always allowed to use all blocks."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:325
+#: includes/Settings/SettingsPage.php:327
 msgid "Available blocks"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgid ""
 "editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:394
+#: includes/Settings/SettingsPage.php:390
 msgid "Hide all blocks"
 msgstr ""
 
@@ -48,11 +48,11 @@ msgid ""
 "roles."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:326
-msgid "Only selected blocks are visible in the block editor."
+#: includes/Settings/SettingsPage.php:328
+msgid "Only selected blocks are available in the block editor."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:130
+#: includes/Settings/SettingsPage.php:137
 msgid "Reset user role to all visible"
 msgstr ""
 
@@ -73,15 +73,11 @@ msgstr ""
 msgid "RRZE Webteam"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:124
+#: includes/Settings/SettingsPage.php:131
 msgid "Save settings"
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:299
-msgid "Select Role"
-msgstr ""
-
-#: includes/Settings/SettingsPage.php:280
+#: includes/Settings/SettingsPage.php:287
 msgid "Select the user role you want to configure:"
 msgstr ""
 
@@ -94,7 +90,7 @@ msgstr ""
 msgid "Some blocks are not available due to your user role."
 msgstr ""
 
-#: includes/Settings/SettingsPage.php:276
+#: includes/Settings/SettingsPage.php:283
 msgid "User role"
 msgstr ""
 
