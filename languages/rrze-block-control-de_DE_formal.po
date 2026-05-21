@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RRZE Block Control\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-12 08:34+0000\n"
+"PO-Revision-Date: 2026-05-21 09:56+0200\n"
+"Last-Translator: \n"
+"Language-Team: Deutsch\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 3.9\n"
+"X-Loco-Version: 2.8.1; wp-6.9.1; php-8.3.23\n"
+"X-Domain: rrze-block-control\n"
+
+#: includes/Settings/SettingsPage.php:111
+msgid "Administrators are always allowed to use all blocks."
+msgstr "Administratoren dürfen immer alle Blöcke verwenden."
+
+#: includes/Settings/SettingsPage.php:327
+msgid "Available blocks"
+msgstr "Sichtbare Blöcke"
+
+#: includes/Settings/AdminNotice.php:110
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#. Description of the plugin
+msgid ""
+"Control which blocks are available per user role in the WordPress block "
+"editor."
+msgstr ""
+"Steuern Sie, welche Blöcke pro Benutzerrolle im WordPress-Block-Editor "
+"verfügbar sind."
+
+#: includes/Settings/SettingsPage.php:390
+msgid "Hide all blocks"
+msgstr "Alle Blöcke ausblenden"
+
+#. Author URI of the plugin
+msgid "https://www.rrze.fau.de"
+msgstr ""
+
+#: includes/Settings/AdminNotice.php:83
+msgid ""
+"New blocks are available on this website. Check the block settings for user "
+"roles."
+msgstr ""
+"Auf dieser Website sind neue Blöcke verfügbar. Überprüfen Sie die "
+"Blockeinstellungen für Benutzerrollen."
+
+#: includes/Settings/SettingsPage.php:328
+msgid "Only selected blocks are available in the block editor."
+msgstr "Nur mit Haken ausgewählte Blöcke sind im Block-Editor verfügbar."
+
+#: includes/Settings/SettingsPage.php:137
+msgid "Reset user role to all visible"
+msgstr "Alle Blöcke dieser Nutzerrolle auf sichtbar zurücksetzen"
+
+#: includes/Settings/AdminNotice.php:106
+msgid "Review settings"
+msgstr "Einstellungen"
+
+#. Name of the plugin
+#: includes/Settings/SettingsPage.php:109
+msgid "RRZE Block Control"
+msgstr ""
+
+#: includes/Settings/AdminNotice.php:78
+msgid "RRZE Block Control: New blocks available!"
+msgstr "RRZE Block Control: Neue Blöcke verfügbar!"
+
+#. Author of the plugin
+msgid "RRZE Webteam"
+msgstr ""
+
+#: includes/Settings/SettingsPage.php:131
+msgid "Save settings"
+msgstr "Einstellungen speichern"
+
+#: includes/Settings/SettingsPage.php:287
+msgid "Select the user role you want to configure:"
+msgstr "Wählen Sie die Rolle aus, die Sie bearbeiten möchten:"
+
+#: includes/Settings/SettingsPage.php:110
+msgid ""
+"Select which blocks should be available for user roles in the block editor."
+msgstr ""
+"Wählen Sie aus, welche Blöcke für Benutzerrollen im Block-Editor zur "
+"Verfügung stehen sollen."
+
+#: includes/Blocks/RestrictionNotice.php:61
+msgid "Some blocks are not available due to your user role."
+msgstr "Einige Blöcke sind aufgrund Ihrer Benutzerrolle nicht verfügbar."
+
+#: includes/Settings/SettingsPage.php:283
+msgid "User role"
+msgstr "Benutzerrolle"
+
+#: rrze-block-control.php:117
+#, php-format
+msgid ""
+"Your server is running PHP version %s. Please upgrade at least to PHP "
+"version %s."
+msgstr ""
+"Ihr Server läuft mit PHP Version %s. Bitte aktualisieren Sie mindestens auf "
+"PHP Version %s."
+
+#: rrze-block-control.php:121
+#, php-format
+msgid ""
+"Your Wordpress version is %s. Please upgrade at least to Wordpress version "
+"%s."
+msgstr ""
+"Ihre WordPress-Version ist %s. Bitte aktualisieren Sie mindestens auf "
+"WordPress-Version %s."

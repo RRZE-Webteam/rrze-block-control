@@ -6,7 +6,7 @@
  * description: Control which blocks are available per user role in the WordPress block editor.
  * Author: RRZE Webteam
  * Author URI: https://www.rrze.fau.de
- * Version: 1.0.0
+ * Version: 1.0.1
  * License: GPL3
  * Text domain: rrze-block-control
  * Domain Path: /languages

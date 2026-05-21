@@ -1,50 +1,27 @@
-
-/node_modules/
-nbproject*
-.idea
-.sass-cache
-.DS_Store
-
-### vscode ###
+# IDE & Editor
 .vscode/
-### NetBeans ###
-**/nbproject/
-### PhpStorm ###
 .idea/
-### macOS ###
+nbproject*
+**/nbproject/
+
+# OS
 .DS_Store
-### Node ###
+
+# Sass
+.sass-cache
+
+# Dependencies
 node_modules/
-### Composer ###
+
+# Composer
 composer.lock
-### Tmp ###
-_tmp/
-
-### Composer ###
-
-/wordpress-tests/
-wordpress-tests/
 
 # Logs
 logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Coverage directory used by tools like istanbul
-coverage
-
-# Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
-
-# Dependency directories
-node_modules/
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
+# Cache
 .eslintcache
 
 # Output of `npm pack`
@@ -53,23 +30,9 @@ node_modules/
 # Output of `wp-scripts plugin-zip`
 *.zip
 
-# dotenv environment variables file
+# dotenv
 .env
 
-# Loco translate ignore
+# Loco Translate
 *.po~
 *.pot~
-
-bin/install-wp-tests.sh
-.phpunit.cache
-.phpunit.result.cache
-.phpcs.xml.dist
-.phpunit.xml.dist
-phpunit.xml.dist.bak
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-
-/tests/authStorage.json
-*.authStorage.json
